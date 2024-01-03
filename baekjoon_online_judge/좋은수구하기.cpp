@@ -10,7 +10,7 @@
 #include <algorithm>
 using namespace std;
 
-int main2(int argc, const char * argv[]) {
+int main(int argc, const char * argv[]) {
     
     ios::sync_with_stdio(false);
     cin.tie(NULL);
