@@ -33,7 +33,7 @@ void josephus(int n, int k)
         }
     }
 
-    cout << survivors.front() << " " << survivors.back() << endl;
+    cout << survivors.front() << " " << survivors.back() << endl; // endl는 엔터를 의미
 }
 
 int main() {
