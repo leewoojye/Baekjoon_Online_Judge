@@ -13,7 +13,6 @@ void DFS(int here, vector<bool>& visited, vector<vector<int>>& matrix) {
         matrix[here][j]--;
         matrix[j][here]--;
         visited[j]=true;
-        // cout << j << ' ';
         DFS(j, visited, matrix);
       }
     }
@@ -41,6 +40,8 @@ int main() {
   int N,M,V;
   cin >> N >> M >> V;
   vector<bool> visited(N, false);
+  // vector 크기를 N으로 설정해도, index는 0~N-1이다.
+  // 즉 정점 개수 N에 대해 matrix[정점번호]로 표현하려면 N+1 X N+1 행렬이 필요하다.
   vector<vector<int>> matrix(N+1, vector<int>(N+1, 0));
   int n1, n2;
   for(int i=0;i<M;++i) {
