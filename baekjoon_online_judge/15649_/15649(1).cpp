@@ -5,11 +5,16 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+// m : 붙여야할 남은 정수갯수
+// midret : 현재까지 만든 문자열(부분답)
+// visited : 현재까지 정수들의 방문여부를 나타내는 불린벡터
 void makeSequence(int m, string midret, vector<bool> visited) {
     if(m==0) {
+      // 속도높이는 법 - endl 대신 '\n'을 쓴다.
         cout << midret << '\n';
         return;
     }
+    // 벡터 생성자 또는 등호=를 이용해 주소전달이 아닌 값복사를 할 수 있다.
     // vector<bool> visited_copy(visited);
     for(int i=1;i<visited.size();++i) {
         // visited=visited_copy;
@@ -17,8 +22,8 @@ void makeSequence(int m, string midret, vector<bool> visited) {
             // visited=visited_copy;
             visited[i]=true;
             string s=midret+to_string(i);
-            makeSequence(m-1, s+" ", visited);
-            visited[i]=false;
+            makeSequence(m-1, s+" ", visited); // 마지막에 띄어쓰기가 포함된 것도 답으로 처리해주는듯..
+            visited[i]=false; // 재귀함수에 복사된 벡터가 전달되므로 visited를 수정해도 변함이 없다.
         }
     }
     return;
