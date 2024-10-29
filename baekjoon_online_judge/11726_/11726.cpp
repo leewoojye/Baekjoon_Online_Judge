@@ -3,9 +3,9 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-vector<int> dp;
+vector<long long> dp;
 
-int squareDp(int n) {
+long long squareDp(int n) {
     if(n==2) {
         return 2;
     } else if (n==1) {
@@ -31,7 +31,7 @@ int main()
     fastio;
     int n;
     cin >> n;
-    int result;
+    long long result;
     dp.resize(n, -1);
     result=squareDp(n)%10007;
     //cout << result;
