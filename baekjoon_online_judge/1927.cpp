@@ -14,7 +14,7 @@ void popHeap() {
     }
     heap[0]=heap.back();
     heap.pop_back();
-    size = heap.size(); // pop_back으로 사이즈 변화하므로 사이즈 변수 업데이트해줌
+    size = heap.size(); // pop_back으로 사이즈 변화하므로 사이즈 변수를 한번 업데이트해줌
     int i=0;
 
     // 인덱스 i가 0부터 시작하므로 좌측은 2*i+1, 우측은 2*i+2임
