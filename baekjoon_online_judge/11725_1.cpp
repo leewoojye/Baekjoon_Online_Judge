@@ -8,6 +8,7 @@ vector<int> parents;
 vector<bool> visited;
 
 void insertBFS(int N, vector<vector<bool>>& matrix) {
+  // vector 크기와 초기값을 동시에 재설정 : assign()
   visited.assign(N+1, false);
   parents.assign(N+1, 0);
   queue<int> q;
