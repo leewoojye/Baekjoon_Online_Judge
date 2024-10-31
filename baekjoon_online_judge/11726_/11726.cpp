@@ -3,6 +3,7 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+// 모듈러 연산
 vector<long long> dp;
 
 long long squareDp(int n) {
@@ -11,8 +12,8 @@ long long squareDp(int n) {
     } else if (n==1) {
         return 1;
     }
-    int case1;
-    int case2;
+    long long case1;
+    long long case2;
     if(dp[n-1]!=-1) {
         case1=dp[n-1];
     } else {
@@ -23,7 +24,7 @@ long long squareDp(int n) {
     } else {
         dp[n-2]=case2=squareDp(n-2);
     }
-    return case1+case2;
+    return (case1%10007+case2%10007)%10007;
 }
 
 int main()
@@ -34,8 +35,8 @@ int main()
     long long result;
     dp.resize(n, -1);
     result=squareDp(n)%10007;
-    //cout << result;
-    cout << squareDp(n);
+    cout << result;
+    //cout << squareDp(n);
 
     return 0;
 }

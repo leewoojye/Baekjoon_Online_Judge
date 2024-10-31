@@ -4,9 +4,13 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+// 함수전달인자 대신 전역 변수를 이용하면 메모리 오버헤드를 줄일 수 있다.
+// 오버헤드는 데이터 이외에 추가로 필요한 메모리로, 벡터로 말하면 리스트의 크기 등 내부상태를 뜻한다.
+// 지역 변수는 함수호출시 약간의 스택 메모리를 사용할 수 있다.
 vector<int> parents;
 vector<bool> visited;
 
+// 데이터복사가 아닌 참조를 사용(메모리차지비중을 낮추기위함)
 void insertBFS(int N, vector<vector<bool>>& matrix) {
   // vector 크기와 초기값을 동시에 재설정 : assign()
   visited.assign(N+1, false);
