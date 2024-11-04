@@ -1,10 +1,3 @@
-//
-//  main.cpp
-//  baekjoon_online_judge
-//
-//  Created by Woo Jye Lee on 1/1/24.
-//
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -55,4 +48,3 @@ int main2(int argc, const char * argv[]) {
     
     return 0;
 }
-// change added 24.3.22
