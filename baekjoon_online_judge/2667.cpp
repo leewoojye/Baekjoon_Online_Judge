@@ -19,6 +19,7 @@ void searchDFS(int x, int y) {
         if(newx<0 || newx>matrix.size()-1 || newy<0 || newy>matrix.size()-1 || visited[newx][newy]) continue;
         if(matrix[newx][newy]==1) {
             result[indexx]++;
+            visited[newx][newy]=true;
             searchDFS(newx, newy);
         }
     }
@@ -32,16 +33,19 @@ int main()
     string s;
     cin >> N;
     matrix.resize(N, vector<int>(N));
-    visited.resize(N, vector<bool>(N));
+    visited.resize(N, vector<bool>(N, false));
     for(int i=0;i<N;++i) {
         cin >> s;
         for(int j=0;j<N;++j) {
-            matrix[i].push_back((int)s[j]);
+            matrix[i][j]=(int)(s[j]-'0');
         }
     }
+    result.push_back(0);
     for(int x=0;x<N;++x) {
         for(int y=0;y<N;++y) {
             if(matrix[x][y]==1 && !visited[x][y]) {
+                visited[x][y]=true;
+                result[indexx]+=1;
                 searchDFS(x, y);
                 result.push_back(0);
                 indexx++;
@@ -49,9 +53,10 @@ int main()
         }
     }
     sort(result.begin(), result.end());
+    result.erase(result.begin());
     cout << result.size() << '\n';
     for(auto& o : result) {
-        cout << o;
+        cout << o << '\n';
     }
     return 0;
 }
