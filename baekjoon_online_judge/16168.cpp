@@ -31,18 +31,25 @@ int main()
         matrix[e1][e2]++;
         matrix[e2][e1]++;
     }
+    int flag=false;
     for(int i=1;i<=V;++i) {
         // 차수가 홀수인 정점이 하나라도 있으면 홀수점을 시작점으로 잡는다.
         int edges=0;
         for(int j=1;j<=V;++j) {
             edges+=matrix[i][j];
         }
-        if(isEulerTrail(i, 0)) {
+        if(edges%2!=0) flag=true;
+        if(edges%2!=0 && isEulerTrail(i, 0)) {
             cout << "YES";
             return 0;
-        } 
+        }
     }
-    
+    for(int i=0;i<=V;++i) {
+        if(!flag && isEulerTrail(i, 0)) {
+            cout << "YES";
+            return 0;
+        }
+    }
     cout << "NO";
     return 0;
 }
