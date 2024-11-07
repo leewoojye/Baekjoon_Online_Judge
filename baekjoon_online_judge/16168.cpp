@@ -11,7 +11,7 @@ bool isEulerTrail(int here, int count) {
         if(matrix[here][i]>0) {
             matrix[here][i]--;
             matrix[i][here]--;
-            if(isEulerTrail(i, count++)) return true;
+            if(isEulerTrail(i, count+1)) return true;
             matrix[here][i]++;
             matrix[i][here]++;
         }
@@ -32,23 +32,17 @@ int main()
         matrix[e2][e1]++;
     }
     for(int i=1;i<=V;++i) {
+        // 차수가 홀수인 정점이 하나라도 있으면 홀수점을 시작점으로 잡는다.
         int edges=0;
         for(int j=1;j<=V;++j) {
             edges+=matrix[i][j];
         }
-        // 오일러 트레일인지 서킷인지 구분필요+
-        // euler trail인 경우 - 시작점과 끝점이 다름
-        if(edges%2 != 0) {
-            string s;
-            isEulerTrail(i, 0) ? s="YES" : s="NO";
-            cout << s;
+        if(isEulerTrail(i, 0)) {
+            cout << "YES";
             return 0;
         } 
-        // euler circuit인 경우 - 시작점과 끝점이 동일
-        else {
-            
-        }
     }
+    
     cout << "NO";
     return 0;
 }
