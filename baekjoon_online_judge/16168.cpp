@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 using namespace std;
-#define fastio ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+#define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
 int V,E;
 vector<vector<int>> matrix;
@@ -36,11 +36,17 @@ int main()
         for(int j=1;j<=V;++j) {
             edges+=matrix[i][j];
         }
+        // 오일러 트레일인지 서킷인지 구분필요+
+        // euler trail인 경우 - 시작점과 끝점이 다름
         if(edges%2 != 0) {
             string s;
             isEulerTrail(i, 0) ? s="YES" : s="NO";
             cout << s;
             return 0;
+        } 
+        // euler circuit인 경우 - 시작점과 끝점이 동일
+        else {
+            
         }
     }
     cout << "NO";
