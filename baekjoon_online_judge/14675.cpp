@@ -1,14 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <climits>
+#include <utility>
 #include <string>
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
 vector<int> discovered;
 vector<bool> isCutVertex;
+vector<bool> isCutBridge;
 vector<vector<int>> list;
+vector<pair<int,int>> edgeList;
 int counter=0;
 
 int findCutVertex(int here, bool isRoot) {
@@ -22,8 +24,10 @@ int findCutVertex(int here, bool isRoot) {
       // 서브트리가 방문할수있는 최소방문정점을 반환
       ++children;
       int subTree=findCutVertex(there, false);  
-      if(!isRoot && subTree>discovered[here]) {
+      // 서브트리 중 하나라도 역방향간선이 없으면 절단점이 되므로 모든 서브트리에 대해 최소발견간선을 조사해야함.
+      if(!isRoot && subTree>=discovered[here]) {
         isCutVertex[here]=true;
+        if(subTree!=discovered[here]) isCutBridge[]
       }
       ret=min(subTree, ret);
     }
@@ -32,12 +36,6 @@ int findCutVertex(int here, bool isRoot) {
   // 시작점에선 처음부터 모든 자식을 탐색하므로 모든 시작점은 곧 루트라고 볼 수 있다.
   if(isRoot) isCutVertex[here] = (children>=2);
   return ret;
-}
-
-vector<bool> isCutBridge;
-int counter1=0;
-int findCutBridge(int here, bool isRoot) {
-
 }
 
 int main() {
@@ -54,6 +52,7 @@ int main() {
     cin >> e1 >> e2;
     list[e1].push_back(e2);
     list[e2].push_back(e1);
+    edgeList.push_back(make_pair(e1,e2));
   }
 
   // 한 번의 dfs로 모든 정점의 단절점 여부를 조사
@@ -70,6 +69,7 @@ int main() {
     s=isCutVertex[data] ? "yes" : "no";
      cout << s << '\n';
      break;
+     
      default:
      break;
     }
