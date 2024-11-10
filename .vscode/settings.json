@@ -1,7 +1,11 @@
 {
-    "files.associations": {
-        "list": "cpp",
-        "bitset": "cpp",
-        "bit": "cpp"
-    }
+  "files.associations": {
+    "list": "cpp",
+    "bitset": "cpp",
+    "bit": "cpp",
+    "random": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
+  }
 }
