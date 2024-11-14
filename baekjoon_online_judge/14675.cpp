@@ -9,38 +9,41 @@ using namespace std;
 
 vector<int> discovered;
 vector<bool> isCutVertex;
-vector<bool> isCutBridge;
 vector<vector<int>> list;
 map<pair<int,int>, int> edgeList;
 int counter=0;
 
-int findCutVertex(int here, bool isRoot) {
+int findCutVertex(int here, int parent, bool isRoot) {
   // 전위/후위 증감연산자는 변수값 자체도 변경시킴 counter+1을 쓰면 안됨.
   discovered[here]=counter++;
-  int ret=discovered[here]+1;
+  int ret=discovered[here];
   int children=0;
+  int uniqueChild;
   for(int i=0;i<list[here].size();++i) {
     int there=list[here][i];
-    if(discovered[there]==-1) {
+    if(discovered[there]==-1 && i!=parent) {
       // 서브트리가 방문할수있는 최소방문정점을 반환
       ++children;
-      int subTree=findCutVertex(there, false);  
+      int subTree=findCutVertex(there, here, false);  
       // 서브트리 중 하나라도 역방향간선이 없으면 절단점이 되므로 모든 서브트리에 대해 최소발견간선을 조사해야함.
       if(!isRoot && subTree>=discovered[here]) {
         isCutVertex[here]=true;
-        if(subTree==discovered[here]) {
-          edgeList.erase(make_pair(here,i));
-          edgeList.erase(make_pair(i,here));
+        if(subTree!=discovered[here]) {
+          edgeList.erase({here,i});
+          edgeList.erase({i,here});
         }
         ret=min(subTree, ret);
       }
-      edgeList.erase({here,i});
-      edgeList.erase({i,here});
+      if(isRoot) uniqueChild=i;
     }
   //시작점이 루트인지는 어떻게 아나?
   // 시작점에선 처음부터 모든 자식을 탐색하므로 모든 시작점은 곧 루트라고 볼 수 있다.
   }
   if(isRoot) isCutVertex[here] = (children>=2);
+  if(isRoot&&children==1) {
+    edgeList.erase({here,uniqueChild});
+    edgeList.erase({uniqueChild,here});
+  }
   return ret;
 }
 
@@ -52,17 +55,17 @@ int main() {
   list.resize(N+1);
   discovered.resize(N+1, -1);
   isCutVertex.resize(N+1, false);
-  isCutBridge.resize(N);
+  
   for(int i=0;i<N-1;++i) {
     cin >> e1 >> e2;
     list[e1].push_back(e2);
     list[e2].push_back(e1);
-    edgeList.insert({{e1, e2}, i + 1});
-    edgeList.insert({{e2, e1}, i + 1});
+    edgeList.insert({{e1, e2}, i+1});
+    edgeList.insert({{e2, e1}, i+1});
   }
 
   // 한 번의 dfs로 모든 정점의 단절점 여부를 조사
-  int n=findCutVertex(1, true);
+  int n=findCutVertex(1, 0, true);
   
   int q;
   cin >> q;
@@ -70,23 +73,28 @@ int main() {
     int option, data;
     string s;
     cin >> option >> data;
-    switch (option)
-    {
+    switch (option) {
     case 1:
-    s=isCutVertex[data] ? "yes" : "no";
-     cout << s << '\n';
-     break;
-    case 2:
-        for (const auto& pair : edgeList) {
-        if (pair.second == data) {  // 값이 일치하는 경우
-        cout << "yes" << '\n';
+        // 'isCutVertex[data]' 값을 기반으로 "yes" 또는 "no" 출력
+        cout << (isCutVertex[data] ? "yes" : "no") << '\n';
         break;
+    case 2: {
+        // edgeList에서 data와 일치하는 간선이 있다는 건 단절선이 아니라는 뜻
+        bool found = false;
+        for (const auto& pair : edgeList) {
+            if (pair.second == data) {
+                cout << "yes\n";
+                found = true;
+                break; 
+            }
         }
+        if (!found) { // switch-case문의 break는 case만 벗어날 뿐이므로 분기 처리를 추가로 해줌
+            cout << "no\n";
+        }
+        break;
     }
-    cout << "no" << '\n';
-    break;
-     default:
-     break;
+    default:
+        break;  // option이 1이나 2가 아닌 경우 처리 안 함
     }
   }
   return 0;
