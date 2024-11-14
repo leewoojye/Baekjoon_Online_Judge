@@ -13,18 +13,18 @@ vector<vector<int>> list;
 map<pair<int,int>, int> edgeList;
 int counter=0;
 
-int findCutVertex(int here, int parent, bool isRoot) {
+int findCutVertex(int here, bool isRoot) {
   // 전위/후위 증감연산자는 변수값 자체도 변경시킴 counter+1을 쓰면 안됨.
   discovered[here]=counter++;
   int ret=discovered[here];
   int children=0;
-  int uniqueChild;
+  int uniqueChild; // here가 루트이며 자손이 1개일 경우 단절선정보를 구하기 위한 변수
   for(int i=0;i<list[here].size();++i) {
     int there=list[here][i];
-    if(discovered[there]==-1 && i!=parent) {
+    if(discovered[there]==-1) { // discovered 비교 조건문만으로 부모는 이미 방문된 상태로 걸러지므로 parent 변수를 따로 설정할 필요가 없음
       // 서브트리가 방문할수있는 최소방문정점을 반환
       ++children;
-      int subTree=findCutVertex(there, here, false);  
+      int subTree=findCutVertex(there, false);  
       // 서브트리 중 하나라도 역방향간선이 없으면 절단점이 되므로 모든 서브트리에 대해 최소발견간선을 조사해야함.
       if(!isRoot && subTree>=discovered[here]) {
         isCutVertex[here]=true;
@@ -32,6 +32,8 @@ int findCutVertex(int here, int parent, bool isRoot) {
           edgeList.erase({here,i});
           edgeList.erase({i,here});
         }
+        // edgeList.erase({here,i});
+        // edgeList.erase({i,here});
         ret=min(subTree, ret);
       }
       if(isRoot) uniqueChild=i;
@@ -65,7 +67,7 @@ int main() {
   }
 
   // 한 번의 dfs로 모든 정점의 단절점 여부를 조사
-  int n=findCutVertex(1, 0, true);
+  int n=findCutVertex(1, true);
   
   int q;
   cin >> q;
@@ -83,13 +85,13 @@ int main() {
         bool found = false;
         for (const auto& pair : edgeList) {
             if (pair.second == data) {
-                cout << "yes\n";
+                cout << "no\n";
                 found = true;
                 break; 
             }
         }
         if (!found) { // switch-case문의 break는 case만 벗어날 뿐이므로 분기 처리를 추가로 해줌
-            cout << "no\n";
+            cout << "yes\n";
         }
         break;
     }
