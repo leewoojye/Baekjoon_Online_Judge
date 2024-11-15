@@ -1,5 +1,5 @@
 #include <iostream>
-#include <queue>
+#include <queue> // 우선순위큐
 #include <vector>
 #include <utility>
 #include <climits>
@@ -12,6 +12,7 @@ vector<vector<pair<unsigned char, unsigned short>>> edges;
 vector<int> minDistance;
 
 void searchDijkstra(unsigned short start) {
+  // 최소힙 설정
     priority_queue<pair<int, unsigned short>, vector<pair<int, unsigned short>>, greater<>> pq;
     pq.push({0, start});
     minDistance[start] = 0;  // 시작점의 거리 0으로 설정
@@ -24,6 +25,7 @@ void searchDijkstra(unsigned short start) {
         unsigned short currentNode = top.second;
 
         // 이미 더 작은 거리로 방문한 노드라면 건너뛰기
+        // 이미 방문한 노드에 대해서 더 짧은 경로를 찾으면 그 노드의 인접정점들에 대해서도 거리를 갱신해주는 작업이 필요함 (가중치 있는/없는 다익스트라 알고리즘의 차이점)
         if (distance > minDistance[currentNode]) continue;
 
         // 현재 정점에서 연결된 모든 간선 처리
@@ -34,6 +36,7 @@ void searchDijkstra(unsigned short start) {
             int newDistance = distance + static_cast<int>(weight);  // 새로운 거리 계산
 
             // 더 작은 거리로 갱신 (min() 사용)
+            // 새로찾은 최단거리가 기존보다 작을때만 우선순위큐에 넣음으로써 큐 크기를 줄임
             if (minDistance[nextNode] == -1 || newDistance < minDistance[nextNode]) {
                 minDistance[nextNode] = newDistance;
                 pq.push({newDistance, nextNode});
