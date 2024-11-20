@@ -13,7 +13,7 @@ int main() {
     s+=" ";
   }
   s[N-1]='*'; // 문자는 작음따옴표, 문자열은 큰 따옴표
-  string s0=s;
+  string s0=s; // string 자료형은 대입연산자로 값복사 가능
   for(int i=0;i<2*N-1;++i) {
     s=s0;
     for(int j=0;j<abs(abs(i-(N-1))-(N-1));++j) {
