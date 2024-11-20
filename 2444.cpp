@@ -9,7 +9,7 @@ int main() {
   int N;
   cin >> N;
   string s="";
-  for(int i=0;i<2*N-1;++i) {
+  for(int i=0;i<N;++i) {
     s+=" ";
   }
   s[N-1]='*'; // 문자는 작음따옴표, 문자열은 큰 따옴표
@@ -18,7 +18,8 @@ int main() {
     s=s0;
     for(int j=0;j<abs(abs(i-(N-1))-(N-1));++j) {
       s[N-2-j]='*';
-      s[N+j]='*';
+      //s[N+j]='*';
+      s+='*';
     }
     cout << s << '\n';
   }
