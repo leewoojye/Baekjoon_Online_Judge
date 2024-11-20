@@ -17,7 +17,7 @@ int main() {
   int start;
   bool flag=true;
   if(size%2==0) {
-    start=(size/2)+1;
+    start=(size/2);
     while(!s.empty()) {
       if(input[start]!=s.top()) {
         flag=false;
@@ -27,7 +27,8 @@ int main() {
       start++;
     }
   } else {
-    start=(size/2)+2;
+    // string index는 0부터 시작하기 때문에 비교를 시작할 지점도 1 줄인 값에서 시작해야함.
+    start=(size/2)+1;
     while(!s.empty()) {
       if(input[start]!=s.top()) {
         flag=false;
