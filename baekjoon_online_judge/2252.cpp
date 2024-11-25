@@ -36,7 +36,10 @@ int main() {
   }
   reverse(result.begin(), result.end());
   for(int i=0;i<N;++i) {
-    if(i==N-1) cout << result[i];
+    if(i==N-1) {
+      cout << result[i];
+      break;;
+    }
     cout << result[i] << " ";
   }
   return 0;
