@@ -18,7 +18,7 @@ int belmanford(int start) {
       for(int k=0;k<list[j].size();++k) {
         int adj=list[j][k].first;
         int cost=list[j][k].second;
-        if(upper[j]+cost<upper[adj]) {
+        if(upper[j] != INT_MAX && upper[j]+cost<upper[adj]) {
           upper[adj]=upper[j]+cost;
           updated=true;
         }
@@ -34,7 +34,7 @@ int main() {
   int v1,v2,w;
   cin >> N >> M;
   list.resize(N+1);
-  upper.resize(N+1, INT_MAX-1000);
+  upper.resize(N+1, INT_MAX);
   for(int i=0;i<M;++i) {
     cin >> v1 >> v2 >> w;
     list[v1].push_back({v2,w});
@@ -45,7 +45,7 @@ int main() {
     return 0;
   }
   for(int i=2;i<=N;++i) {
-    if(upper[i]==INT_MAX-1000) {
+    if(upper[i]==INT_MAX) {
       cout << -1 << '\n';
       continue;
     }
