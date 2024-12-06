@@ -9,11 +9,13 @@ int main() {
   fastio;
   int N;
   cin >> N;
-  vector<vector<int>> matrix(N, vector<int>(N, INT_MAX-1000));
+  vector<vector<int>> matrix(N, vector<int>(N, 10000));
+
   for(int i=0;i<N;++i) {
     for(int j=0;j<N;++j) {
       int input;
       cin >> input;
+      if(i==j) continue;
       if(input==1) matrix[i][j]=1;
     }
   }
@@ -28,11 +30,7 @@ int main() {
 
   for(int i=0;i<N;++i) {
     for(int j=0;j<N;++j) {
-      if(i==j) {
-        cout << 1 << " ";
-        continue;
-      }
-      if(matrix[i][j]==INT_MAX-1000) {
+      if(matrix[i][j]>=10000) {
         cout << 0 << " ";
         continue;
       }
