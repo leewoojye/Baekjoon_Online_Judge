@@ -8,29 +8,48 @@ using namespace std;
 
 struct DisjointSet {
   // string1의 부모 string2
+  // 두 문자열이 서로 같으면 루트노드임.
   map<string, string> parent;
-  // string이 속한 집합의 크기 int
+  // string이 속한 집합의 크기 int (집합트리의 높이 아님!)
   map<string, int> size;
   string find(string s) {
     if(s==parent[s]) return s;
     return parent[s]=find(parent[s]);
   }
   void merge(string s1, string s2) {
-    string s1=find(s1), s2=find(s2);
+    s1=find(s1), s2=find(s2);
     if(s1==s2) return;
     if(size[s1]>size[s2]) swap(s1, s2);
     parent[s1]=s2;
-    if(size[s1]==size[s2]) size[s2]+=1;
+    size[s2]=size[s1]+size[s2];
+    return;
   }
 };
 
 int main() {
   fastio;
   int F;
-  cin >> F;
-  for(int i=0;i<F;++i) {
-    string s1,s2;
-    cin >> s1 >> s2;
+  int C;
+  cin >> C;
+  DisjointSet set;
+  for (int k = 0; k<C; ++k) {
+    set.parent.clear();
+    set.size.clear();
+    cin >> F;
+    for(int i=0;i<F;++i) {
+      string s1,s2;
+      cin >> s1 >> s2;
+      if(set.parent.find(s1)==set.parent.end()) { set.parent[s1]=s1; set.size[s1]=1; }
+      if(set.parent.find(s2)==set.parent.end()) { set.parent[s2]=s2; set.size[s2]=1; }
+      set.merge(s1,s2);
+      auto max_elem = set.size.begin();
+      for (auto it = set.size.begin(); it != set.size.end(); ++it) {
+          if (it->second > max_elem->second) {
+              max_elem = it;
+          }
+      }
+      cout << max_elem->second << '\n';
+    }
   }
   return 0;
 }
