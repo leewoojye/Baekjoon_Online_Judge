@@ -16,13 +16,13 @@ struct DisjointSet {
     if(s==parent[s]) return s;
     return parent[s]=find(parent[s]);
   }
-  void merge(string s1, string s2) {
+  string merge(string s1, string s2) {
     s1=find(s1), s2=find(s2);
-    if(s1==s2) return;
+    if(s1==s2) return s1;
     if(size[s1]>size[s2]) swap(s1, s2);
     parent[s1]=s2;
     size[s2]=size[s1]+size[s2];
-    return;
+    return s2;
   }
 };
 
@@ -41,14 +41,7 @@ int main() {
       cin >> s1 >> s2;
       if(set.parent.find(s1)==set.parent.end()) { set.parent[s1]=s1; set.size[s1]=1; }
       if(set.parent.find(s2)==set.parent.end()) { set.parent[s2]=s2; set.size[s2]=1; }
-      set.merge(s1,s2);
-      auto max_elem = set.size.begin();
-      for (auto it = set.size.begin(); it != set.size.end(); ++it) {
-          if (it->second > max_elem->second) {
-              max_elem = it;
-          }
-      }
-      cout << max_elem->second << '\n';
+      cout << set.size[set.merge(s1,s2)] << '\n';
     }
   }
   return 0;
