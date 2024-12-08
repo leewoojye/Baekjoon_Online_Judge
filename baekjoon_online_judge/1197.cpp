@@ -5,6 +5,7 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
+// 프림 최소 스패닝 트리
 int main() {
   fastio;
   int V,E;
@@ -20,15 +21,14 @@ int main() {
   }
   int ret=0; // 가중치 합
   vector<int> minWeight(V+1, INF); // 현재 트리에서 해당 정점까지의 최소거리
-  minWeight[0]=minWeight[1]=0;
-  added[0]=added[1]=true;
+  minWeight[1]=0;
   for (int k=0;k<V;++k) {
     int u=-1;
     for(int i=1;i<=V;++i) {
-      if(!added[u] && (u==-1 || minWeight[u]>minWeight[i])) u=i;
+      if(!added[i] && (u==-1 || minWeight[u]>minWeight[i])) u=i;
     }
     ret+=minWeight[u];
-    added[u]==true;
+    added[u]=true;
     for(int i=0;i<adj[u].size();++i) {
       int next=adj[u][i].first; int cost=adj[u][i].second;
       if(!added[next] && minWeight[next]>cost) {
@@ -36,6 +36,6 @@ int main() {
       }
     }
   }
-  cout << ret;
+  cout << ret << '\n';
   return 0;
 }
