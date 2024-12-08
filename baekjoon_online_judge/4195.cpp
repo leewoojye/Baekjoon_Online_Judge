@@ -16,6 +16,7 @@ struct DisjointSet {
     if(s==parent[s]) return s;
     return parent[s]=find(parent[s]);
   }
+  // 두 집합을 합치고 합쳐진 집합의 루트를 반환함.
   string merge(string s1, string s2) {
     s1=find(s1), s2=find(s2);
     if(s1==s2) return s1;
@@ -33,6 +34,7 @@ int main() {
   cin >> C;
   DisjointSet set;
   for (int k = 0; k<C; ++k) {
+    // 매 테스트케이스마다 구조체 멤버변수들을 초기화해줌.
     set.parent.clear();
     set.size.clear();
     cin >> F;
