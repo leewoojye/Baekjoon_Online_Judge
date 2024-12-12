@@ -11,34 +11,34 @@ int main() {
   int E;
   cin >> E;
   // 잔여용량이랑 유량 같은 배열로 쓰기
-  vector<vector<int>> flow(26, vector<int>(26, 0));
+  vector<vector<int>> flow(52, vector<int>(52, 0));
   flow[0][0]=0;
-
   char c1,c2;
+  int i1,i2;
   int f;
   for(int i=0;i<E;++i) {
     cin >> c1 >> c2 >> f;
-    flow[c1-65][c2-65]=f;
-    flow[c2-65][c1-65]=f;
+    if(c1 >= 'a' && c1 <= 'z') i1=c1-'a'+26;
+    if(c2 >= 'a' && c2 <= 'z') i2=c2-'a'+26;
+    if(c1 >= 'A' && c1 <= 'Z') i1=c1-'A';
+    if(c2 >= 'A' && c2 <= 'Z') i2=c2-'A';
+    flow[i1][i2] += f;
+    flow[i2][i1] += f;
   }
   int ret=0;
   while(true) {
-    vector<bool> visited(26, false);
-    vector<int> parent(26, -1);
+    vector<bool> visited(52, false);
+    vector<int> parent(52, -1);
     parent[0]=0;
     visited[0]=true;
     queue<int> q;
     q.push(0);
-    // int amount=INT_MAX;
-    // BFS
+    // BFS, 아무탐색으로 찾은 경로도 증가경로가 되는이유는?
     while(!q.empty() && parent[25]==-1) {
       int front=q.front(); q.pop();
       visited[front]=true;
-      int minNode=0;
-      for(int i=0;i<26;++i) {
+      for(int i=0;i<52;++i) {
         if(!visited[i] && flow[front][i]>0) {
-          // if(flow[front][i]<flow[front][minNode]) minNode=i; 
-          // amount=min(amount,flow[front][i]);
           parent[i]=front;
           q.push(i);
         }
