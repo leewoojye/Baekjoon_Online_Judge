@@ -11,7 +11,7 @@ int main() {
   int E;
   cin >> E;
   // 잔여용량이랑 유량 같은 배열로 쓰기
-  vector<vector<int>> flow(26, vector<int>(26, INT_MAX));
+  vector<vector<int>> flow(26, vector<int>(26, 0));
   flow[0][0]=0;
 
   char c1,c2;
@@ -29,24 +29,28 @@ int main() {
     visited[0]=true;
     queue<int> q;
     q.push(0);
-    int amount=INT_MAX;
+    // int amount=INT_MAX;
+    // BFS
     while(!q.empty() && parent[25]==-1) {
       int front=q.front(); q.pop();
       visited[front]=true;
       int minNode=0;
-      // BFS
       for(int i=0;i<26;++i) {
-        if(!visited[i] && flow[front][i]<INT_MAX && flow[front][i]>0) {
-          if(flow[front][i]<flow[front][minNode]) minNode=i; 
-          amount=min(amount,flow[front][i]);
+        if(!visited[i] && flow[front][i]>0) {
+          // if(flow[front][i]<flow[front][minNode]) minNode=i; 
+          // amount=min(amount,flow[front][i]);
           parent[i]=front;
           q.push(i);
         }
       }
     }
     if(parent[25]==-1) break;
+    int amount=INT_MAX;
     for(int p=25;p!=0;p=parent[p]) {
-      flow[p][parent[p]]-=amount;
+      amount=min(amount,flow[parent[p]][p]);
+    }
+    for(int p=25;p!=0;p=parent[p]) {
+      flow[p][parent[p]]+=amount;
       flow[parent[p]][p]-=amount;
     }
     ret+=amount;
