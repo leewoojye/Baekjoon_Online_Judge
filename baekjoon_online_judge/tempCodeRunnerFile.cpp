@@ -1,60 +1,78 @@
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <algorithm>
 #include <climits>
-using namespace std;
+#include <algorithm>
+#include <utility>
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+using namespace std;
+
+vector<int> rangeMin;
+vector<int> rangeMax;
+
+struct segmentTree {
+  vector<int> list;
+  int n;
+  int left,right;
+  segmentTree(vector<int>& vc) {
+    list=vc;
+    this->n=list.size(); // 멤버변수는 곡 생성자에서 초기화해줌
+    init(list, 1, 0, n-1);
+  }
+  // 세그먼트 트리 전처리
+  // pair<min, max>
+  pair<int,int> init(vector<int>& v, int node, int nodeLeft, int nodeRight) {
+    if(nodeLeft==nodeRight) {
+      rangeMin[node]=v[nodeLeft];
+      rangeMax[node]=v[nodeLeft];
+      return {v[nodeLeft], v[nodeLeft]};
+    }
+    int mid=(nodeLeft+nodeRight)/2;
+    pair<int,int> nextLeft=init(v, node*2, nodeLeft, mid);
+    pair<int,int> nextRight=init(v, node*2+1, mid+1, nodeRight);
+    rangeMin[node]=min(nextLeft.first, nextRight.first);
+    rangeMax[node]=max(nextLeft.second, nextRight.second);
+    return {rangeMin[node], rangeMax[node]};
+  }
+  // left,right, nodeLeft, nodeRight, node가 주어졌을 때 노드구간내 최솟값 반환
+  int queryMin(int node, int nodeLeft, int nodeRight) {
+    if(nodeLeft==nodeRight) return rangeMin[node];
+    if(nodeLeft>right || nodeRight<left) return INT_MAX;
+    if(nodeLeft>=left && nodeRight<=right) return rangeMin[node];
+    int mid=(nodeLeft+nodeRight)/2;
+    return min(queryMin(node*2, nodeLeft, mid), queryMin(node*2+1, mid+1, nodeRight));
+  }
+  int queryMax(int node, int nodeLeft, int nodeRight) {
+    if(nodeLeft==nodeRight) return rangeMax[node];
+    if(nodeLeft>right || nodeRight<left) return -1;
+    if(nodeLeft>=left && nodeRight<=right) return rangeMax[node];
+    int mid=(nodeLeft+nodeRight)/2;
+    return max(queryMax(node*2, nodeLeft, mid), queryMax(node*2+1, mid+1, nodeRight));
+  }
+  pair<int,int> queryInterface(int left, int right) {
+    this->left=left-1;
+    this->right=right-1;
+    return {queryMin(1, 0, n-1), queryMax(1,0,n-1)};
+  }
+};
 
 int main() {
   fastio;
-  int E;
-  cin >> E;
-  // 잔여용량이랑 유량 같은 배열로 쓰기
-  vector<vector<int>> flow(52, vector<int>(52, 0));
-  flow[0][0]=0;
-  char c1,c2;
-  int i1,i2;
-  int f;
-  for(int i=0;i<E;++i) {
-    cin >> c1 >> c2 >> f;
-    if(c1 >= 'a' && c1 <= 'z') i1=c1-'a'+26;
-    if(c2 >= 'a' && c2 <= 'z') i2=c2-'a'+26;
-    if(c1 >= 'A' && c1 <= 'Z') i1=c1-'A';
-    if(c2 >= 'A' && c2 <= 'Z') i2=c2-'A';
-    flow[i1][i2] = f;
-    flow[i2][i1] = f;
+  int N,M;
+  cin >> N >> M;
+  rangeMin.resize(4*N, INT_MAX);
+  rangeMax.resize(4*N, -1);
+  vector<int> input;
+  int n;
+  for(int i=0;i<N;++i) {
+    cin >> n;
+    input.push_back(n);
   }
-  int ret=0;
-  while(true) {
-    vector<bool> visited(52, false);
-    vector<int> parent(52, -1);
-    parent[0]=0;
-    visited[0]=true;
-    queue<int> q;
-    q.push(0);
-    // BFS, 아무탐색으로 찾은 경로도 증가경로가 되는이유는?
-    while(!q.empty() && parent[25]==-1) {
-      int front=q.front(); q.pop();
-      visited[front]=true;
-      for(int i=0;i<52;++i) {
-        if(!visited[i] && flow[front][i]>0) {
-          parent[i]=front;
-          q.push(i);
-        }
-      }
-    }
-    if(parent[25]==-1) break;
-    int amount=INT_MAX;
-    for(int p=25;p!=0;p=parent[p]) {
-      amount=min(amount,flow[parent[p]][p]);
-    }
-    for(int p=25;p!=0;p=parent[p]) {
-      flow[p][parent[p]]+=amount;
-      flow[parent[p]][p]-=amount;
-    }
-    ret+=amount;
+  segmentTree* tree=new segmentTree(input);
+  int l,r;
+  for(int i=0;i<M;++i) {
+    cin >> l >> r;
+    pair<int,int> result=tree->queryInterface(l,r);
+    cout << result.first << " " << result.second << '\n';
   }
-  cout << ret << '\n';
   return 0;
 }
