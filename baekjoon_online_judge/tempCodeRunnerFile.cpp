@@ -1,1 +1,1 @@
-  // result=mod(result,1000000000);
+  // if(leftover==0) return 0;
