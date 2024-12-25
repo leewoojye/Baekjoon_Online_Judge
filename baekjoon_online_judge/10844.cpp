@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <cstring>
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
@@ -7,7 +6,7 @@ using namespace std;
 
 long long cache[10][100];
 // back : 바로 이전의 한자리 숫자
-// leftover : 남은 계단수 자릿수
+// leftover : 남은 계단수 자릿수(현재함수에서 결정할 자리를 포함한 자릿수며, leftover가 0이면 문자열이 끝남을 의미)
 long long findstairNums(int back, int leftover) {
   long long& ret=cache[back][leftover];
   if(ret!=-1) return ret;
@@ -19,13 +18,15 @@ long long findstairNums(int back, int leftover) {
   } else if(back==0) {
     return ret=findstairNums(1, leftover-1)%M;
   }
-   // return ret = (findstairNums(back + 1, leftover - 1) % M + findstairNums(back - 1, leftover - 1) % M) % M; // 왜 틀림?
+   // return ret = (findstairNums(back + 1, leftover - 1) % M + findstairNums(back - 1, leftover - 1) % M) % M; // 컴파일에러
+  //  ret에 값을 할당하면서 동시에 여러 연산을 처리하는 과정에서 연산자 우선순위와 괄호 부족
   long long nextUp = findstairNums(back + 1, leftover - 1) % M;
   long long nextDown = findstairNums(back - 1, leftover - 1) % M;
+  // (a+b)%m=((a%m)+(b%m))%m, 512p
   return ret = (nextUp + nextDown) % M;
 }
 
-// 모듈러 연산
+// 모듈러 연산, a를 b로 나눈 나머지를 음수 처리를 고려하여 계산
 long long mod(long long a, long long b) {
   return ((a%b)+b)%b;
 }
