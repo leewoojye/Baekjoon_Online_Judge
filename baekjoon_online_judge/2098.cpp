@@ -22,8 +22,9 @@ int searchTSP(short visited, int here) {
   int ret=987654321;
   for(int i=0;i<N;++i) {
     int cost=matrix[here][i];
+    if(cost==0) continue;
     // 아직 방문하지 않은 도시면 방문
-    if((!(visited & (1 << i)) || (i==start)) && here!=i) {
+    if((!(visited & (1 << i)) || (i==start)) && (here!=i)) {
       ret=min(ret,searchTSP(visited,i)+cost);
     }
   }
