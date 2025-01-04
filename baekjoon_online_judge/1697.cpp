@@ -9,6 +9,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
     ios_base::sync_with_stdio(false);
+    // 각 노드들의 방문여부를 저장하는 불린배열
     bool visited[100001];
     fill(visited, visited + 100001, false);
     int N,M;
