@@ -6,8 +6,9 @@
 using namespace std;
 
 map<vector<int>, int> dp;
+int minimum;
 
-int combineFiles(vector<int>& arr) {
+int combineFiles(vector<int>& arr, int h) {
   if(arr.size()==1) return 0;
   // arr의 참조가 아닌 복사본을 맵의 키로 사용함
   auto it=dp.find(arr);
@@ -20,12 +21,15 @@ int combineFiles(vector<int>& arr) {
     // 인접 두파일 합치기
     arr[i]=arr[i]+arr[i+1];
     arr.erase(arr.begin()+i+1);
-    ret=min(ret,combineFiles(arr)+tmp+tmp2);
+    ret=min(ret,combineFiles(arr, h-1)+tmp+tmp2);
+    // if(ret>minimum) 
     // 원본 arr배열 복구
     arr[i]=tmp;
     arr.insert(arr.begin()+i+1,tmp2);
   }
-  return it->second=ret;
+  // if(h==1) minimum=min(minimum, ret);
+  dp.insert({arr, ret});
+  return ret;
 }
 
 int main() {
@@ -41,7 +45,7 @@ int main() {
     for(int j=0;j<length;++j) {
       cin >> inputList[j];
     }
-    result=combineFiles(inputList);
+    result=combineFiles(inputList, length-1);
     cout << result;
   }
   return 0;
