@@ -16,6 +16,7 @@ int combinationGame(const char& turn, int numStone) { // rvalue,lvalue, 비const
   int& ret=dp[turnInt][numStone];
   if(ret!=2) return ret;
   // combinationGame() 재귀호출을 상대방의 승리여부를 반환하기때문에 -1을 받으면 상대는 진다. 상대가 지는 경우가 하나라도 있는지 알기 위해 max가 아닌 min을 쓴다.
+  // 원래는 누가 이기냐에 따라 고정된1/-1을 부여했는데 이기는 자에게 1을 고정으로 설정하니(답의형태제약?) 코드가 간결해졌다.
   int maxV=min(combinationGame('s'+'c'-turn, numStone-1),combinationGame('s'+'c'-turn, numStone-3));
   return ret=-maxV; // 상대가 지면 나는 이기고, 상대가 어떻게든 이기면 난 진다.
 }
