@@ -25,7 +25,7 @@ int main() {
   cin >> N;
   dp.resize(3,vector<int>(N+1, 0));
   string winner;
-  combinationGame(1,N)==1 ? winner="SY" : winner="CY";
+  combinationGame(1,N)==1 ? winner="SK" : winner="CY";
   cout << winner;
   return 0;
 }
