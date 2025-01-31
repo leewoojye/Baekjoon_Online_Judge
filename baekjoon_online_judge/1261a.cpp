@@ -13,11 +13,12 @@ int dx[4]={1,0,-1,0};
 int dy[4]={0,1,0,-1};
 
 struct state {
-  __int128 vi=0;
+  __int128 vi=0; // gcc 컴파일러 내장 프로퍼티
   int x,y;
   int broken=0;
   state(__int128 vP, int xP, int yP, int bP) : vi(vP),x(xP),y(yP),broken(bP) {}
   bool operator<(const state& other) const {
+    // 최적화 : broken이 같을 경우 (N,M)에 더 가까운 좌표를 갖는 상태에 우선순위를 부여함. 종착지와 가까울수록 정답에 가까울 것이라는 건 직관적으로 알 수 있으니까 (휴리스틱)
     if(broken==other.broken) return (x+y) < (other.x+other.y);
     return broken < other.broken; 
   }

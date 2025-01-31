@@ -31,6 +31,8 @@ int bfs() {
 
         if (x == N - 1 && y == M - 1) return broken; // 목표 지점 도착
 
+        // broken이 적은 state부터 우선순위 큐에서 꺼내져 visit하게 되는데, 이미 한번이라도 방문한 좌표는 다음에 방문될 때보다 항상
+        // 더 적은 broken으로 방문하게 된다. 따라서 각 상태 state마다 visited[]를 갖을 필요 없고, 전역으로 visited[] 배열을 하나 갖으면 된다.
         if (visited[x][y]) continue; // 이미 방문한 경우 스킵
         visited[x][y] = true;
 
@@ -48,7 +50,6 @@ int bfs() {
             }
         }
     }
-
     return -1; // 도달할 수 없는 경우
 }
 
@@ -56,7 +57,6 @@ int main() {
     cin >> M >> N;
     maze.resize(N, vector<int>(M));
     stateMap.resize(N, vector<int>(M, 987654321));
-
     for (int i = 0; i < N; ++i) {
         string s;
         cin >> s;
@@ -64,7 +64,6 @@ int main() {
             maze[i][j] = s[j] - '0'; // '0' → 0, '1' → 1 변환
         }
     }
-
     cout << bfs() << endl;
     return 0;
 }
