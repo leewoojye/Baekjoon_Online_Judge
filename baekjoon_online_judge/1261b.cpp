@@ -29,6 +29,7 @@ int bfs() {
         state front = pq.top(); pq.pop();
         int x = front.x, y = front.y, broken = front.broken;
 
+        // broken이 작은 state부터 탐색하므로 가장 먼저 종착지에 도착한 탐색이 최적해임.
         if (x == N - 1 && y == M - 1) return broken; // 목표 지점 도착
 
         // broken이 적은 state부터 우선순위 큐에서 꺼내져 visit하게 되는데, 이미 한번이라도 방문한 좌표는 다음에 방문될 때보다 항상
@@ -44,10 +45,12 @@ int bfs() {
 
             int newBroken = broken + maze[nextx][nexty];
 
-            if (newBroken < stateMap[nextx][nexty]) {
-                stateMap[nextx][nexty] = newBroken;
-                pq.push(state(nextx, nexty, newBroken));
-            }
+            // newBroken은 항상 stateMap[] 원소보다 작으므로(최초 방문 좌표이기 때문) 패스, stateMap도 불필요
+            // if (newBroken < stateMap[nextx][nexty]) {
+            //     stateMap[nextx][nexty] = newBroken;
+            //     pq.push(state(nextx, nexty, newBroken));
+            // }
+            pq.push(state(nextx, nexty, newBroken));
         }
     }
     return -1; // 도달할 수 없는 경우
@@ -57,6 +60,7 @@ int main() {
     cin >> M >> N;
     maze.resize(N, vector<int>(M));
     stateMap.resize(N, vector<int>(M, 987654321));
+    // 0-based 인덱싱
     for (int i = 0; i < N; ++i) {
         string s;
         cin >> s;

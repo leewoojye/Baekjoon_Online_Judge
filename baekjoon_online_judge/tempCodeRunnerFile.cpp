@@ -1,3 +1,4 @@
-1
-4
-40 30 30 50
+            // if (newBroken < stateMap[nextx][nexty]) {
+            //     stateMap[nextx][nexty] = newBroken;
+            //     pq.push(state(nextx, nexty, newBroken));
+            // }
