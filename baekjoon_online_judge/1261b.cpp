@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <string>
+#include <chrono>
 using namespace std;
 
 struct state {
@@ -30,6 +31,7 @@ int bfs() {
         int x = front.x, y = front.y, broken = front.broken;
 
         // broken이 작은 state부터 탐색하므로 가장 먼저 종착지에 도착한 탐색이 최적해임.
+        // 다익스트라는 처음 찾은 해가 최적해이기에 전역변수 best로 가지치기할 필요도 없음.
         if (x == N - 1 && y == M - 1) return broken; // 목표 지점 도착
 
         // broken이 적은 state부터 우선순위 큐에서 꺼내져 visit하게 되는데, 이미 한번이라도 방문한 좌표는 다음에 방문될 때보다 항상
@@ -43,6 +45,7 @@ int bfs() {
 
             if (nextx < 0 || nextx >= N || nexty < 0 || nexty >= M) continue; // 범위 초과 방지
 
+            // 0,1로만 이루어진 데이터 다루기 1.
             int newBroken = broken + maze[nextx][nexty];
 
             // newBroken은 항상 stateMap[] 원소보다 작으므로(최초 방문 좌표이기 때문) 패스, stateMap도 불필요
@@ -65,9 +68,14 @@ int main() {
         string s;
         cin >> s;
         for (int j = 0; j < M; ++j) {
+            // 0,1로만 이루어진 데이터 다루기 2.
             maze[i][j] = s[j] - '0'; // '0' → 0, '1' → 1 변환
         }
     }
+    auto start = chrono::high_resolution_clock::now();
     cout << bfs() << endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double, milli> elapsed = end - start;
+    cout << "실행 시간: " << elapsed.count() << " ms" << endl;
     return 0;
 }
