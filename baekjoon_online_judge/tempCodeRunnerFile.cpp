@@ -1,4 +1,3 @@
-            // if (newBroken < stateMap[nextx][nexty]) {
-            //     stateMap[nextx][nexty] = newBroken;
-            //     pq.push(state(nextx, nexty, newBroken));
-            // }
+  for(int i=0;i<n1Index.size();++i) {
+    cout << n1Index[i] << " ";
+  }
