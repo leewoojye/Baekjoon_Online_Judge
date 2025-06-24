@@ -8,8 +8,8 @@ int main() {
   string s;
   cin >> s;
   int index=0, count=0;
-  while(s[index]!='\0') [
-    if(s[index]=='=' || s[index]=='-' || s[index])
-  ]
+  // while(s[index]!='\0') [
+  //   if(s[index]=='=' || s[index]=='-' || s[index])
+  // ]
   return 0;
 }
