@@ -35,18 +35,15 @@ int main(int argc, const char** argv) {
     int frontx=front.first; int fronty=front.second;
     if(frontx==N-1 && fronty==M-1) break;
     int nextx,nexty;
-    flag=false;
     for(int i=0;i<4;++i) {
       nextx=frontx+dx[i];
       nexty=fronty+dy[i];
       if(nextx<0 || nextx>=N || nexty<0 || nexty>=M || maze[nextx][nexty] == 0) continue;
       if(visited[nextx][nexty]) continue;
-      shortest[nextx][nexty]=min(shortest[nextx][nexty],count+1);
+      shortest[nextx][nexty]=shortest[frontx][fronty]+1;
       q.push({nextx,nexty});
       visited[nextx][nexty]=true;
-      flag=true;
     }
-    if(flag) count++;
   }
   cout << shortest[N-1][M-1] << '\n';
   return 0;
