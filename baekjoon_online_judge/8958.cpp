@@ -22,7 +22,7 @@ int main() {
         sum+=count;
         continue;
       }
-      sum+=count;
+      // sum+=count;
       count=0;
     }
     q.push(sum);
