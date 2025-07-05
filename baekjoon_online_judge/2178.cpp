@@ -15,7 +15,7 @@ int main(int argc, const char** argv) {
   cin >> N >> M;
   vector<vector<int>> maze(N,vector<int>(M,0)); // 입력 미로 매트릭스
   vector<vector<bool>> visited(N,vector<bool>(M,false)); // 미로상 각 좌표 방문 여부
-  vector<vector<int>> shortest(N,vector<int>(M,987654321)); // 미로상 각 좌표 방문 여부
+  vector<vector<int>> shortest(N,vector<int>(M,0)); // 미로상 각 좌표 방문 여부
   for(int i=0;i<N;++i) {
     string line;
     cin >> line;
