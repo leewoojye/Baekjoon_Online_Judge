@@ -5,9 +5,10 @@
 using namespace std;
 #define fastio ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-int count=0;
+int count=0; // std::count 와 이름이 겹칠 수 있어 권장 x
 int N;
 vector<bool> rowAvailable;
+// vector<bool> rowAvailable(N+2,true); // N이 초기화되지 않은 상태에선 보통 0으로 간주
 map<int,bool> crossAvailable1;
 map<int,bool> crossAvailable3;
 
