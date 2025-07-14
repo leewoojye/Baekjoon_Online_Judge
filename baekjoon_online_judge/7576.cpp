@@ -26,7 +26,7 @@ int main() {
     }
   }
 
-  if(rotton+non==numBox) { cout << 0 << '\n'; return 0; }
+  if(rotton+non==numBox) { cout << 0 << '\n'; return 0; } // -1,0으로만 이루어진 입력의 경우 분기처리
   while(!q1.empty()) {
     while(!q1.empty()) {
       int nindex=q1.front().first; int mindex=q1.front().second; q1.pop();
