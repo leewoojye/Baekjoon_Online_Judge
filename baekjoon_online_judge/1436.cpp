@@ -11,11 +11,42 @@ int counter(int n) {
   return counter(n-1)+pow(9,n-3)*(n-2)-1;
 }
 
+vector<int> sorted;
+vector<int> mergeIngri1, mergeIngri2;
+void recursiveListup(int p1, int p2, int n) {
+  // if(index>=10000) return;
+
+  recursiveListup(p1,p2,n+1);
+  return;
+}
+
+bool hasThreeConsecutiveSixes(int number) {
+    int count = 0;
+
+    while (number > 0) {
+        if (number % 10 == 6) {
+            count++;
+            if (count >= 3) return true;
+        } else {
+            count = 0;
+        }
+        number /= 10;
+    }
+
+    return false;
+}
+
 int main() {
   fastio;
   int N;
   cin >> N;
-  // cout << counter(4) << '\n';
+  // sorted.assign(10000,0);
+  // mergeIngri1.assign(20000,0);
+  // mergeIngri2.assign(20000,0);
+  for(int i=666;sorted.size()<=N;++i) {
+    if(hasThreeConsecutiveSixes(i)) sorted.push_back(i);
+  }
+  cout << sorted[N-1] << '\n';
   return 0;
 }
 
