@@ -16,8 +16,9 @@ int main() {
     if(c1%i==0 && c2%i==0) {result1=i; break;}
   }
   bool flag=false;
-  for(int i=1;i<=smaller;++i) {
-    for(int j=1;j*smaller<=bigger*i;++j) {
+  // Q. 이중 반복문 탈출법
+  for(int i=1;i<=smaller;++i) { // 큰 수에 곱해지는 i
+    for(int j=1;j*smaller<=bigger*i;++j) { // 작은 수에 곱해지는 j
       if(j*smaller==bigger*i) {result2=j*smaller;flag=true;break;}
     }
     if(flag) break;
