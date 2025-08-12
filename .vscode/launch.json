@@ -1,6 +1,19 @@
 {
   "configurations": [
     {
+      "name": "C/C++: clang++ build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "C/C++: clang++ build active file"
+    },
+    {
       "name": "(lldb) Launch",
       "type": "cppdbg",
       "request": "launch",
@@ -36,7 +49,7 @@
         }
       ],
       "preLaunchTask": "C/C++: g++ 활성 파일 빌드",
-      "miDebuggerPath": "/opt/homebrew/bin/gdb",
+      "miDebuggerPath": "/opt/homebrew/bin/gdb"
     },
     {
       "name": "C/C++: g++-9 활성 파일 빌드 및 디버그",
