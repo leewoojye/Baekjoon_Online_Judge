@@ -1,18 +1,19 @@
 #include <iostream>
-using namespace std;
 
 int main() {
-    int a = 10, b = 20, c = 30, d = 40;
+    const int N = 5;
 
-    cout << "수정 이전: a=" << a << ", b=" << b << ", c=" << c << ", d=" << d << endl;
-
-    int temp = a; 
-    a = b;
-    b = c;
-    c = d;
-    d = temp; 
-
-    cout << "수정 이후: a=" << a << ", b=" << b << ", c=" << c << ", d=" << d << endl;
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= N; ++j) {
+            // 첫 행, 마지막 행, 첫 열, 마지막 열인 경우에만 별 출력
+            if (i == 1 || i == N || j == 1 || j == N) {
+                std::cout << "*";
+            } else {
+                std::cout << " ";
+            }
+        }
+        std::cout << std::endl;
+    }
 
     return 0;
 }
