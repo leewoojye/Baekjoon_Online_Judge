@@ -6,11 +6,9 @@ int main() {
     cin >> N;
     int num = N;
     do {
-        // 각 자리수 더하기
         int a = num / 10;
         int b = num % 10;
         int sum = a + b;
-        // 새로운 수 만들기
         num = b * 10 + (sum % 10);
         count++;
     } while (num != N);
