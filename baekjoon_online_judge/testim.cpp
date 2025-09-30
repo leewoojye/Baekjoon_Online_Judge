@@ -1,19 +1,43 @@
 #include <iostream>
+#include <vector>
+using namespace std; 
+
+void printArray(const vector<int>& arr) {
+    for (int x : arr) {
+        cout << x << " ";
+    }
+    cout << endl;
+}
 
 int main() {
-    const int N = 5;
+    vector<int> b = {9, 6, 4, 1, 0};
+    vector<int> c = {8, 7, 5, 3, 2};
+    vector<int> a; 
 
-    for (int i = 1; i <= N; ++i) {
-        for (int j = 1; j <= N; ++j) {
-            // 첫 행, 마지막 행, 첫 열, 마지막 열인 경우에만 별 출력
-            if (i == 1 || i == N || j == 1 || j == N) {
-                std::cout << "*";
-            } else {
-                std::cout << " ";
-            }
+    int i = 0, j = 0; 
+
+    while (i < b.size() && j < c.size()) {
+        if (b[i] >= c[j]) { 
+            a.push_back(b[i]);
+            i++;
+        } else {
+            a.push_back(c[j]);
+            j++;
         }
-        std::cout << std::endl;
     }
+
+    while (i < b.size()) {
+        a.push_back(b[i]);
+        i++;
+    }
+
+    while (j < c.size()) {
+        a.push_back(c[j]);
+        j++;
+    }
+
+    cout << "Merged array: ";
+    printArray(a);
 
     return 0;
 }

@@ -1,32 +1,29 @@
 #include <stdio.h>
-#define MAX 1000 // max # of digits
+#define SIZE 10
 
 int main()
-{ // Calculate 12^30
-    int base = 12, power = 30, result[MAX], mult, carry, i, k, flag = 0;
+{
+    int a[SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, even[SIZE], odd[SIZE], i, j, k;
 
-    // initialization: result = 1
-    result[0] = 1;
-    for (i = 1; i < MAX; i++) {
-        result[i] = 0;
+    // a[i], even[j], odd[k]
+    for (i = j = k = 0; i < SIZE; i++) {
+        if (a[i] % 2 == 0) // if even, store in even array
+            even[j++] = a[i];
+        else // if odd, store in odd array
+            odd[k++] = a[i]; // 채워야 할 부분
     }
 
-    // calculate base^power
-    for (i = 0; i < power; i++) {
-        // result = result * base;
-        carry = 0;
-        for (k = 0; k < MAX; k++) {
-            mult = result[k] * base + carry;
-            result[k] = mult % 10; // 채워야 할 부분
-            carry = mult / 10;
-        }
+    // print even array
+    printf("even = ");
+    for (i = 0; i < j; i++) { // 채워야 할 부분
+        printf("%d ", even[i]);
     }
 
-    // print base^power
-    printf("%d^%d = ", base, power);
-    for (i = MAX - 1; i >= 0; i--) {
-        if (result[i] > 0) flag = 1;
-        if (flag) printf("%d", result[i]);
+    // print odd array
+    printf("\n");
+    printf("odd = ");
+    for (i = 0; i < k; i++) {
+        printf("%d ", odd[i]);
     }
     printf("\n");
     return 0;
