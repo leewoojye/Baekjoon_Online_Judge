@@ -1,14 +1,37 @@
 #include <iostream>
-#include <vector>
-using namespace std;
 
-int main(int argc, const char** argv) {
-    int N;
-    cin >> N;
-    int count = 0;
-    for(int i=5;i<=N;i+=5) {
-        if(i%5==0) count++;
+class Count {
+private:
+    int num;
+
+public:
+    Count(int n = 0) {
+        num = n;
+        std::cout << "기본 생성자 호출 (num = " << num << ")" << std::endl;
     }
-    cout << count;
+
+    Count(int n1, int n2) {
+        num = (n1 > n2) ? n1 : n2; 
+        std::cout << "오버로딩된 생성자 호출 (num = " << num << ")" << std::endl;
+    }
+
+    void Print() {
+        std::cout << "현재 num 값: " << num << std::endl;
+    }
+};
+
+int main() {
+    Count c1;
+    c1.Print();
+
+    Count c2(10);
+    c2.Print();
+
+    Count c3(20, 30); 
+    c3.Print();
+
+    Count c4(100, 50); 
+    c4.Print();
+
     return 0;
 }

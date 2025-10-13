@@ -1,21 +1,30 @@
 #include <stdio.h>
-#include <string.h>
+#define SIZE 5
 
-#define MAX 100
+int data[SIZE] = {0, 10, 20, 30, 40};
+// 아래 4줄 완성
+int next[SIZE] = {-1, 3, 1, 0, 2};
+int prev[SIZE] = {3, 2, 4, 1, -1};
+int head = 4;
+int last = 0;
 
-int main() {
-    char s1[] = "LEE WOOJYE"; 
-    char s2[MAX];
-    int len = strlen(s1);
-    int i, j;
-
-    for (i = len - 1, j = 0; i >= 0; i--, j++) {
-        s2[j] = s1[i];
+void PrintList()
+{
+    int i;
+    printf("(head = %d) => ", head);
+    for (i = head; i != -1; i = next[i])
+    {
+        printf("%d (next = %d) => ", data[i], next[i]);
     }
-    s2[len] = '\0'; 
+    printf("(null)\n(last = %d) => ", last);
+    for (i = last; i != -1; i = prev[i]) {
+        printf("%d (prev = %d) => ", data[i], prev[i]);
+    }
+    printf("(null)\n");
+}
 
-    printf("Before: %s\n", s1);
-    printf("After: %s\n", s2);
-
+int main()
+{
+    PrintList();
     return 0;
 }

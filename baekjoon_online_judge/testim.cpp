@@ -1,43 +1,37 @@
 #include <iostream>
-#include <vector>
-using namespace std; 
 
-void printArray(const vector<int>& arr) {
-    for (int x : arr) {
-        cout << x << " ";
+class Count {
+private:
+    int num;
+
+public:
+    Count(int n = 0) {
+        num = n;
+        std::cout << "기본 생성자 호출 (num = " << num << ")" << std::endl;
     }
-    cout << endl;
-}
+
+    Count(int n1, int n2) {
+        num = (n1 > n2) ? n1 : n2; 
+        std::cout << "오버로딩된 생성자 호출 (num = " << num << ")" << std::endl;
+    }
+
+    void Print() {
+        std::cout << "현재 num 값: " << num << std::endl;
+    }
+};
 
 int main() {
-    vector<int> b = {9, 6, 4, 1, 0};
-    vector<int> c = {8, 7, 5, 3, 2};
-    vector<int> a; 
+    Count c1;
+    c1.Print();
 
-    int i = 0, j = 0; 
+    Count c2(10);
+    c2.Print();
 
-    while (i < b.size() && j < c.size()) {
-        if (b[i] >= c[j]) { 
-            a.push_back(b[i]);
-            i++;
-        } else {
-            a.push_back(c[j]);
-            j++;
-        }
-    }
+    Count c3(20, 30); 
+    c3.Print();
 
-    while (i < b.size()) {
-        a.push_back(b[i]);
-        i++;
-    }
-
-    while (j < c.size()) {
-        a.push_back(c[j]);
-        j++;
-    }
-
-    cout << "Merged array: ";
-    printArray(a);
+    Count c4(100, 50); 
+    c4.Print();
 
     return 0;
 }
