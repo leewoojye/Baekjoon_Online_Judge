@@ -1,23 +1,21 @@
 #include <iostream>
 using namespace std;
 
-struct Complex {
-    double real;
-    double imag;
+class Count {
+    int num;
+public:
+    void Reset() { num = 0; }
+    void Print() { cout << num << endl; }
+    void Increment() { num++; }
+    void Double() { num *= 2; } // 추가된 함수
 };
 
-Complex Subtract(Complex c1, Complex c2) {
-    Complex result;
-    result.real = c1.real - c2.real;
-    result.imag = c1.imag - c2.imag;
-    return result;
-}
-
 int main() {
-    Complex c1 = {4.8, 3.2};
-    Complex c2 = {2.1, 7.5};
-    
-    Complex res = Subtract(c1, c2);
-    cout << "Result: " << res.real << " + " << res.imag << "i" << endl;
+    Count c;
+    c.Reset();
+    c.Increment(); // 1
+    c.Increment(); // 2
+    c.Double();    // 4
+    c.Print();
     return 0;
 }

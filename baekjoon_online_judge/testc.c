@@ -1,19 +1,22 @@
 #include <stdio.h>
 
-typedef struct Student {
-    void (*Print) (char *s);
-} Student;
+void Min1(int** p, int* a, int* b) {
+    *p = (*a < *b) ? a : b;
+}
 
-void PrintFreshman(char *name) { printf("%s is a freshman\n", name); }
-void PrintSophomore(char *name) { printf("%s is a sophomore\n", name); }
+int* Min2(int* a, int* b) {
+    return (*a < *b) ? a : b;
+}
 
-int main()
-{
-    Student s1 = {PrintFreshman};
-    Student s2 = {PrintSophomore};
-    
-    s1.Print("Kim");
-    s2.Print("Lee");
-    
+int main() {
+    int a = 10, b = 20;
+    int* p1 = NULL;
+    int* p2 = NULL;
+
+    Min1(&p1, &a, &b);
+    p2 = Min2(&a, &b);
+
+    printf("Min1 result: %d\n", *p1);
+    printf("Min2 result: %d\n", *p2);
     return 0;
 }
