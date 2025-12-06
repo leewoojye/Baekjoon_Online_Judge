@@ -4,12 +4,13 @@ def crc_division(data: str, divisor: str) -> str:
     # redundant bit 0 추가
     # 어떤 수 A가 B로 나누어떨어지면(나머지가 0이면), A 뒤에 0을 몇 개 더 붙여도(자릿수를 늘려도) 여전히 B로 나누어떨어지는 성질을 활용,
     # 송신, 수신측 모든 호출에서 0을 덧붙임
+    # 문자열은 수정이 불가능(immutable)하므로, XOR 연산 중 값을 바꾸기 위해 list로 변환
     temp_data = list(data + "0" * n)
     divisor_list = list(divisor)
 
     # division 수행
     for i in range(len(data)):
-        # 맨 앞자리가 1인 경우에만 XOR 연산 수행
+        # 맨 앞자리가 1인 경우에만 XOR 연산 수행, 나눌 부분이 1로 시작해야 1로 시작하는 나머지로 나눌 수 있기 때문
         if temp_data[i] == '1':
             for j in range(len(divisor)):
                 if temp_data[i + j] == divisor_list[j]:
@@ -17,7 +18,8 @@ def crc_division(data: str, divisor: str) -> str:
                 else:
                     temp_data[i + j] = '1'
 
-    remainder = "".join(temp_data)[-n:]
+    # 문자열은 수정이 불가능(immutable)하므로, XOR 연산 중 값을 바꾸기 위해 list로 변환
+    remainder = "".join(temp_data)[-n:] # 끝에서(-) n번째부터(n) 맨 끝까지(:)
     
     return remainder
 
