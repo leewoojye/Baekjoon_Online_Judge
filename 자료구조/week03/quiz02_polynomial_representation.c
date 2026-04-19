@@ -18,6 +18,7 @@ Quiz
 */
 
 #include <stdio.h>
+#include <math.h>
 
 #define MAX_DEGREE 101
 #define MAX_TERMS 101
@@ -69,6 +70,15 @@ float poly_eval(PolynomialArray p, int x)
     return result;
 }
 
+float poly_eval2(PolynomialArray p, int x)
+{
+    float result = 0.0;
+    for (int i = 0; i <= p.degree; i++) {
+        result += p.coef[i] * pow(x, p.degree - i);
+    }
+    return result;
+}
+
 void print_poly_array(PolynomialArray p)
 {
     for (int i = p.degree; i > 0; i--) {
@@ -109,6 +119,7 @@ int main(void)
     printf("Subtraction example p - q:\n");
     print_poly_array(diff);
 
-    printf("p(2) = %.1f\n", poly_eval(p, 2));
+    printf("p(2) = %.1f (Horner's method)\n", poly_eval(p, 2));
+    printf("p(2) = %.1f (Standard method)\n", poly_eval2(p, 2));
     return 0;
 }

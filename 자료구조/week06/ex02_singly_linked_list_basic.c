@@ -72,39 +72,72 @@ void free_list(ListNode *head)
     }
 }
 
+ListNode* reverse_list(ListNode *head) {
+    ListNode *pos=head; // 다음 단계에 역순으로 만들 노드
+    ListNode *reversing=head; // 현재 역순으로 만들 노드 = link를 반대편으로 바꿀 노드
+    ListNode *reversed=NULL; // 현재까지 역순리스트의 head
+    // for(;reversing!=NULL;) {
+    //     reversing->link=reversed;
+    //     reversed=reversing;
+    //     reversing=pos;
+    //     pos=pos->link;
+    // }
+    for(;pos!=NULL;) {
+        
+    }
+    return reversed;
+}
+
+ListNode* reverse(ListNode *head) {
+    ListNode *p,*q,*r;
+    p=head; // 역순으로 만들 리스트
+    q=NULL; // 역순으로 만들 노드
+    while(p!=NULL) {
+        r=q; // 역순으로 된 리스트
+        q=p;
+        p=p->link;
+        q->link=r;
+    }
+    return q;
+}
+
 int main(void)
 {
-    ListNode *manual_head = NULL;
-    ListNode *p;
+    // ListNode *manual_head = NULL;
+    // ListNode *p;
     ListNode *head = NULL;
 
-    manual_head = (ListNode *)malloc(sizeof(ListNode));
-    manual_head->data = 10;
-    manual_head->link = NULL;
+    // manual_head = (ListNode *)malloc(sizeof(ListNode));
+    // manual_head->data = 10;
+    // manual_head->link = NULL;
 
-    p = (ListNode *)malloc(sizeof(ListNode));
-    p->data = 20;
-    p->link = NULL;
-    manual_head->link = p;
-    print_list(manual_head);
-    free_list(manual_head);
+    // p = (ListNode *)malloc(sizeof(ListNode));
+    // p->data = 20;
+    // p->link = NULL;
+    // manual_head->link = p;
+    // print_list(manual_head);
+    // free_list(manual_head);
 
     for (int i = 0; i < 5; i++) {
         head = insert_first(head, i);
         print_list(head);
     }
 
-    if (head != NULL && head->link != NULL) {
-        head = insert(head, head, 99);
-        print_list(head);
-        head = delete_node(head, head);
-        print_list(head);
-    }
+    head = reverse(head);
+    print_list(head);
 
-    for (int i = 0; i < 5 && head != NULL; i++) {
-        head = delete_first(head);
-        print_list(head);
-    }
+    // if (head != NULL && head->link != NULL) {
+    //     head = insert(head, head, 99);
+    //     print_list(head);
+    //     head = delete_node(head, head);
+    //     print_list(head);
+    // }
+
+    // for (int i = 0; i < 5 && head != NULL; i++) {
+    //     head = delete_first(head);
+    //     print_list(head);
+    // }
+
     free_list(head);
     return 0;
 }

@@ -34,7 +34,7 @@ int main(void)
     Point p1 = {1.0, 2.0};
     Point p2 = {9.0, 8.0};
 
-    printf("p1 = (%.0f, %.0f)\n", p1.x, p1.y);
+    printf("p1 = (%.0f, %.0f)\n", p1.x, p1.y); // 소수점 없이 실수 출력
     printf("p2 = (%.0f, %.0f)\n", p2.x, p2.y);
     printf("distance = %.2f\n", get_distance(p1, p2));
     return 0;
