@@ -101,6 +101,18 @@ ListNode* reverse(ListNode *head) {
     return q;
 }
 
+ListNode* reverse2(ListNode *head) {
+    ListNode *r,*q,*p;
+    q=head;p=head->link;r=NULL;
+    while(q->link!=NULL) {
+        r=q;
+        q=p;
+        p=p->link;
+        q->link=r;
+    }
+    return q;
+}
+
 int main(void)
 {
     // ListNode *manual_head = NULL;
@@ -123,7 +135,7 @@ int main(void)
         print_list(head);
     }
 
-    head = reverse(head);
+    head = reverse2(head);
     print_list(head);
 
     // if (head != NULL && head->link != NULL) {
