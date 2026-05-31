@@ -16,19 +16,23 @@ void swap(Student* a, Student* b) {
 
 void sort_by_id(Student s[], int n) {
   for(int i=0; i<n-1; i++) {
+    int min = i;
     for(int j=i+1; j<n; j++) {
-      if(s[i].id > s[j].id) swap(&s[i], &s[j]);
+      if(s[min].id > s[j].id) min = j;
     }
+    if(i != min) swap(&s[i], &s[min]);
   }
 }
 
 void sort_by_score(Student s[], int n) {
   for(int i=0; i<n-1; i++) {
+    int max = i;
     for(int j=i+1; j<n; j++) {
-      if(s[i].score < s[j].score || (s[i].score == s[j].score && s[i].id > s[j].id)) {
-        swap(&s[i], &s[j]);
+      if(s[max].score < s[j].score || (s[max].score == s[j].score && s[max].id > s[j].id)) {
+        max = j;
       }
     }
+    if(i != max) swap(&s[i], &s[max]);
   }
 }
 
