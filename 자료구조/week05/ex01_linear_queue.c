@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "linear_queue.h"
 
-#define MAX_QUEUE_SIZE 5
+#define MAX_QUEUE_SIZE 10
 
 typedef int element;
 
@@ -64,24 +65,24 @@ int dequeue(QueueType *q)
     return item;
 }
 
-int main(void)
-{
-    int item = 0;
-    QueueType q;
+// int main(void)
+// {
+//     int item = 0;
+//     QueueType q;
 
-    init_queue(&q);
-    enqueue(&q, 10);
-    queue_print(&q);
-    enqueue(&q, 20);
-    queue_print(&q);
-    enqueue(&q, 30);
-    queue_print(&q);
-    item = dequeue(&q);
-    queue_print(&q);
-    item = dequeue(&q);
-    queue_print(&q);
-    item = dequeue(&q);
-    queue_print(&q);
-    (void)item;
-    return 0;
-}
+//     init_queue(&q);
+//     enqueue(&q, 10);
+//     queue_print(&q);
+//     enqueue(&q, 20);
+//     queue_print(&q);
+//     enqueue(&q, 30);
+//     queue_print(&q);
+//     item = dequeue(&q);
+//     queue_print(&q);
+//     item = dequeue(&q);
+//     queue_print(&q);
+//     item = dequeue(&q);
+//     queue_print(&q);
+//     (void)item;
+//     return 0;
+// }

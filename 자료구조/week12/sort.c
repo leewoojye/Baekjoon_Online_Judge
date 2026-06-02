@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include "../week05/queue.h"
 #define MAX_LENGTH 10
+# define BUCKETS 10
+#define DIGITS 2
 #define swap(a,b,t) ((t)=(a), (a)=(b), (b)=(t)) // swap macro
 
 void insertion_sort(int list[], int len) {
@@ -50,7 +53,8 @@ void merge(int list[], int left, int mid, int right) { // mid
   int l_idx=left;
   int r_idx=mid+1;
 
-  while(l_idx<r_idx) { // left<right X
+  // l_idx <= mid && r_idx <= right 가 정확한 표현 !!
+  while(l_idx <= mid && r_idx <= right) { // left<right, l_idx<r_idx X
     if(list[l_idx]>=list[r_idx]) list_sorted[list_idx++]=list[r_idx++];
     else list_sorted[list_idx++]=list[l_idx++];
   }
@@ -76,11 +80,53 @@ void merge_sort(int list[], int left, int right) { // left, right는 인덱스�
   return;
 }
 
-void quick_sort(int list[], int len) {
+int partition(int list[], int left, int right) { // pivot으로 부분리스트 이진 분할
+  int pivot=left;
+  int l_idx=left+1;
+  int r_idx=right;
+  int tmp;
+
+  while(l_idx<r_idx) {
+    while(list[l_idx]<pivot && l_idx<r_idx) l_idx++;
+    while(list[r_idx]>=pivot && l_idx<r_idx) r_idx--;
+    if(l_idx<r_idx) swap(list[l_idx], list[r_idx], tmp);
+  }
+  swap(list[pivot], list[l_idx], tmp);
+  return l_idx;
+}
+
+void quick_sort(int list[], int left, int right) {
+  int pivot;
+  if(left<right) {
+    pivot=partition(list, left, right);
+    quick_sort(list, left, pivot-1);
+    quick_sort(list, pivot+1, right);
+  }
   return;
 }
 
 void radix_sort(int list[], int len) {
+  QueueType q;
+  init_queue(&q);
+
+  int bucket_id;
+  QueueType buckets[BUCKETS];
+  for (int j = 0; j < BUCKETS; j++) {
+      init_queue(&buckets[j]);
+  }
+
+  for(int i=1, d=1;d<=DIGITS;i*=10, d++) { // factor i
+    for(int j=0;j<len;j++) {
+      bucket_id=(list[j]/i)%10;
+      enqueue(&buckets[bucket_id], list[j]);
+    }
+    for(int j=0, idx=0;j<BUCKETS;j++) {
+      while(!is_empty(&buckets[j])) list[idx++]=dequeue(&buckets[j]);
+    }
+  }
+  // for(int i=0, idx=0;i<BUCKETS;i++) {
+  //   while(!is_empty(&buckets[i])) list[idx++]=dequeue(&buckets[i]);
+  // }
   return;
 }
 
@@ -91,7 +137,9 @@ int main() {
   // insertion_sort(list, len);
   // selection_sort(list, len);
   // bubble_sort(list, len);
-  merge_sort(list, 0, 3);
+  // merge_sort(list, 0, 3); // left, right는 인덱스임
+  // quick_sort(list, 0, 3);
+  radix_sort(list, len);
   for(int i=0;i<len;i++) {
     printf("%d ", list[i]);
   }
