@@ -14,8 +14,21 @@ typedef struct {
     int heap_size;
 } HeapType;
 
+typedef struct TreeNode {
+  TreeNode* left;
+  TreeNode* right;
+  int data;
+} TreeNode;
+
 void init_heap(HeapType *h) {
   h->heap_size=0;
+  return;
+}
+
+void init_node(TreeNode* node) {
+  node->left=NULL;
+  node->right=NULL;
+  node->data='\0';
   return;
 }
 
@@ -47,6 +60,30 @@ void insert_min_heap(HeapType *h, element e) { // bottom-up
   return;
 }
 
+TreeNode* insert_treenode(TreeNode *root, int item) {
+  if(!root) return;
+  int tmp;
+  // TreeNode *p=NULL; // 순회 포인터
+  TreeNode *node=malloc(sizeof(TreeNode));
+  init_node(node);
+  node->data=item;
+  node->left=root;
+  node->right=root->right;
+  root=node;
+
+  while(node!=NULL && (item<node->left->data || item>node->right->data)) {
+    if(item<node->left->data) {
+      swap(node->data, node->left->data, tmp);
+      node=node->left;
+    }
+    else if(item>node->right->data){
+      swap(node->data, node->right->data, tmp);
+      node=node->right;
+    }
+  }
+  return root;
+}
+
 int delete_max_heap(HeapType *h) { // root에 마지막 노드 배치->top-down comparision
   int tmp;
   int idx=1; // top-down 순회 인덱스 (last key가 있는 노드 인덱스)
@@ -67,6 +104,14 @@ int delete_max_heap(HeapType *h) { // root에 마지막 노드 배치->top-down 
     }
   }
   return root_key;
+}
+
+void destroy_tree(TreeNode *root) {
+  if(root==NULL) return;
+  destroy_tree(root->left);
+  destroy_tree(root->right);
+  free(root);
+  return;
 }
 
 int delete_min_heap(HeapType *h) { // root에 마지막 노드 배치->top-down comparision
@@ -119,7 +164,7 @@ void print_min_heap(HeapType *h) { // heap 출력은 delete heap 사용
   return;
 }
 
-int main() {
+void heap_sort_main() {
   srand(time(NULL));
   element e;
   HeapType h;
@@ -130,5 +175,20 @@ int main() {
   }
   // print_max_heap(&h);
   print_min_heap(&h);
+  return;
+}
+
+void LPT_main() {
+  return;
+}
+
+void huffman_main() {
+  char ch_list[] = { 's', 'i', 'n', 't', 'e' };
+  int freq[] = { 4, 6, 8, 12, 15 };
+  return;
+}
+
+int main() {
+  heap_sort_main();
   return 0;
 }
