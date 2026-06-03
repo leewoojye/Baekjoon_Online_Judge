@@ -45,26 +45,26 @@ int is_leaf(TreeNode* node) {
 // }
 
 void insert_max_heap(HeapType *h, element e) { // bottom-up
-  int tmp;
+  element tmp;
   int item=e.key;
   int child_idx=++h->heap_size; // h->heap_size++ (X) 첫 인덱스는 1부터 시작해야
   int parent_idx=child_idx/2;
   while(parent_idx>0 && h->heap[parent_idx].key<item) {
-    swap(h->heap[parent_idx].key, h->heap[child_idx].key, tmp);
+    swap(h->heap[parent_idx], h->heap[child_idx], tmp);
     child_idx=parent_idx;
     parent_idx /= 2;
   }
-  h->heap[child_idx].key=item;
+  h->heap[child_idx]=e;
   return;
 }
 
 void insert_min_heap(HeapType *h, element e) { // bottom-up
-  int tmp;
+  element tmp;
   int item=e.key;
   int child_idx=++h->heap_size; // h->heap_size++ (X) 첫 인덱스는 1부터 시작해야
   int parent_idx=child_idx/2;
   while(parent_idx>0 && h->heap[parent_idx].key>item) {
-    swap(h->heap[parent_idx].key, h->heap[child_idx].key, tmp);
+    swap(h->heap[parent_idx], h->heap[child_idx], tmp);
     child_idx=parent_idx;
     parent_idx /= 2;
   }
@@ -132,19 +132,24 @@ element delete_min_heap(HeapType *h) { // root에 마지막 노드 배치->top-d
   element removed=h->heap[1];
   element last_e=h->heap[h->heap_size--];
   h->heap[1]=last_e; // root 삭제 효과
-  int idx=1; // top-down 순회 인덱스 (last key가 있는 노드 인덱스)
+  // int idx=1; // top-down 순회 인덱스 (last key가 있는 노드 인덱스)
+  int parent=1;
+  int child=2;
 
-  while(idx*2<=h->heap_size) { // 1. top-down으로 순회하는 idx가 리프노드거나 
-    // idx: 더 큰 자식노드를 넣을 현재 인덱스
-    if(last_e.key<=h->heap[idx*2].key && last_e.key<=h->heap[idx*2+1].key) break; // 2. 현재 max heap을 만족하면 종료
-    if(h->heap[idx*2].key<h->heap[idx*2+1].key) {
-      swap(h->heap[idx],h->heap[idx*2],tmp);
-      idx=idx*2;
-    }
-    else { 
-      swap(h->heap[idx],h->heap[idx*2+1],tmp);
-      idx=idx*2+1;
-    }
+  while(child<=h->heap_size) { 
+    if(child<h->heap_size && h->heap[child].key>h->heap[child+1].key) child++; // 더 작은 자식 선택
+    if(last_e.key<=h->heap[child].key) break;
+    swap(h->heap[parent],h->heap[child],tmp);
+    parent=child;
+    child *= 2;
+    // if(h->heap[child].key<h->heap[idx*2+1].key) {
+    //   swap(h->heap[idx],h->heap[idx*2],tmp);
+    //   idx=idx*2;
+    // }
+    // else { 
+    //   swap(h->heap[idx],h->heap[idx*2+1],tmp);
+    //   idx=idx*2+1;
+    // }
   }
   return removed;
 }
