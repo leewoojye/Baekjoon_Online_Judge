@@ -5,6 +5,8 @@
 #define MAX_ELEMENT 200
 #define swap(a,b,t) ((t)=(a), (a)=(b), (b)=(t)) // swap macro
 
+// 연결리스트 트리노드, 배열 최소,최대힙 표현
+// 힙 삽입삭제 연산
 typedef struct {
     int key;
 } element;

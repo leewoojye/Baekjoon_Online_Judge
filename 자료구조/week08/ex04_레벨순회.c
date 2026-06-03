@@ -3,6 +3,7 @@
 
 #define MAX_QUEUE_SIZE 100
 
+// 8장 원형큐 levelorder
 typedef struct TreeNode {
     int data;
     struct TreeNode *left;

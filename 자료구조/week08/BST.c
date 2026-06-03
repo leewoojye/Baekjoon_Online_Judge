@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "../week05/queue.h"
 
+// 이진탐색트리 재귀순환탐색
 typedef struct TreeNode {
     int data;
     struct TreeNode *left;
@@ -26,15 +28,6 @@ int min_value_search(TreeNode* node) {
   if(node->left==NULL) return node->data;
   return min_value_search(node->left);
 }
-
-// 변경된 루트 반환
-// TreeNode* insert_node(TreeNode* root, int item) {
-//   TreeNode* new_node=make_node(item);
-//   if(!root) return new_node; // 빈 트리면 새 노드를 반환
-//   TreeNode* parent=root;
-//   TreeNode* child;
-//   if()
-// }
 
 // 이진탐색트리 연산을 순환구조로 구현
 TreeNode* insert_node(TreeNode* node, int item) {
@@ -78,13 +71,6 @@ TreeNode* delete_node(TreeNode* node, int item) {
 
 // 재귀 탐색
 TreeNode* search_tree(TreeNode* node, int item) {
-  // int flag=0;
-  // if(node==NULL) return 0;
-  // if(node->data==item) return 1;
-  // if(node->left!=NULL && search_tree(node->left,item)) return 1;
-  // if(node->right!=NULL && search_tree(node->right,item)) return 1;
-  // return 0;
-
   // 이진탐색트리는 좌우 자손, 루트 간 대소관계가 있고 이를 거의 항상 활용함
   if(node==NULL) return NULL;
   if(node->data==item) return node;
@@ -112,6 +98,20 @@ void inorder_traversal(TreeNode* root) {
   return;
 }
 
+// // 레벨 순회
+// void level_traversal(TreeNode* node) {
+//   QueueType q;
+//   init_queue(&q);
+//   int removed;
+//   enqueue(&q,node->data);
+//   while(!is_empty(&q)) {
+//     removed=dequeue(&q);
+//     printf("%d ",removed);
+//     if(node->left!=NULL) enqueue(&q,node->left->data);
+//     if(node->right!=NULL) enqueue(&q,node->right->data);
+//   }
+// }
+
 int main() {
   srand(time(NULL));
   TreeNode* root=NULL;
@@ -121,6 +121,8 @@ int main() {
     item=rand()%100+1;
     root=insert_node(root,item);
   }
-  inorder_traversal(root);
+  // inorder_traversal(root);
+  level_traversal(root);
+
   return 0;
 }

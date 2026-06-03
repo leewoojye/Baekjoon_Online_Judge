@@ -56,6 +56,7 @@ int s_balanced(TreeNode *root)
            s_balanced(root->right);
 }
 
+// 트리 높이 구하면서 균형 여부 검사
 static int check_height(TreeNode *root)
 {
     int left_height;
@@ -75,7 +76,7 @@ static int check_height(TreeNode *root)
         return -1;
     }
 
-    if (abs_int(left_height - right_height) > 1) {
+    if (abs_int(left_height - right_height) > 1) { // 균형 여부 검사
         return -1;
     }
     return max_int(left_height, right_height) + 1;

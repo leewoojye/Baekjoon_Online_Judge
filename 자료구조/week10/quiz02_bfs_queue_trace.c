@@ -3,6 +3,7 @@
 #define VERTICES 5
 #define MAX_QUEUE_SIZE 20
 
+// 원형큐 bfs 넓이우선탐색
 typedef struct {
     int data[MAX_QUEUE_SIZE];
     int front;

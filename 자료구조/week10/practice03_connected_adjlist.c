@@ -6,7 +6,7 @@
 // 무방향 그래프, 인접리스트 표현
 typedef struct LinkNode {
   struct LinkNode* link;
-  int data;
+  int data;  
 } LinkNode;
 
 // adj list ver.
@@ -38,7 +38,7 @@ void insert_edge(GraphType *g, int v1, int v2) {
   LinkNode *node1=make_node(v1);
   LinkNode *node2=make_node(v2);
   for(node=g->list[v1];node->link!=NULL;node=node->link);
-  node->link=node2;
+  node->link=node2; // 주의
   for(node=g->list[v2];node->link!=NULL;node=node->link);
   node->link=node1;
 }

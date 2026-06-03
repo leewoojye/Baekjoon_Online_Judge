@@ -47,8 +47,10 @@ static TreeNode *make_inorder_threads(TreeNode *root, TreeNode *prev) // prev는
         return prev;
     }
 
+    // 중위순회: 좌 서브트리부터 처리
     prev = make_inorder_threads(root->left, prev); // 좌 서브트리에서 마지막으로 방문한 노드(prev는 루트를 가리켜야함)
 
+    // 중위순회: 다음에 루트 처리
     if (prev != NULL && prev->right == NULL) { // 스레드 포인터는 우측링크에 저장
         prev->right = root;
         prev->is_thread = TRUE;
@@ -56,7 +58,7 @@ static TreeNode *make_inorder_threads(TreeNode *root, TreeNode *prev) // prev는
     root->is_thread = FALSE;
     prev = root;
 
-    return make_inorder_threads(root->right, prev);
+    return make_inorder_threads(root->right, prev); // root 서브트리에서 마지막으로 방문한 노드를 반환
 }
 
 static TreeNode *find_successor(TreeNode *p)

@@ -37,7 +37,7 @@ static void inorder_iter(TreeNode *root)
             break;
         }
         printf("[%d] ", root->data);
-        root = root->right;
+        root = root->right; // 더 이상 좌 자식이 없는 노드의 우측서브트리를 순회
     }
 }
 
