@@ -5,6 +5,11 @@
 #define DIGITS 2
 #define swap(a,b,t) ((t)=(a), (a)=(b), (b)=(t)) // swap macro
 
+void print_list(int list[], int len) {
+  for(int i=0;i<len;i++) printf("%d ",list[i]);
+  printf("\n");
+}
+
 void insertion_sort(int list[], int len) {
   int i,j, key;
   for(i=1;i<len;i++) {
@@ -43,7 +48,28 @@ void bubble_sort(int list[], int len) {
   return;
 }
 
+// 단일 부분리스트에 대해 삽입정렬
+void shell_selection_sort(int list[], int start, int len, int gap) {
+  int i,j,key;
+  int tmp;
+  for(i=start;i+gap<len;i+=gap) {
+    for(j=i+gap;j>=start;j-=gap) {
+      if(list[j-gap]>list[j]) swap(list[j-gap],list[j],tmp);
+    }
+  }
+}
+
 void shell_sort(int list[], int len) {
+  int gap=len/2;
+  if(gap%2==0) gap++;
+  for (;gap>1;) {
+    for(int i=0;i+gap<len;i++) { // 부분리스트 개수만큼 반복
+      shell_selection_sort(list,i,len,gap);
+    }
+    gap /= 2;
+    if(gap%2==0) gap++;
+  }
+  insertion_sort(list, len); // gap=1 삽입정렬
   return;
 }
 
@@ -139,7 +165,8 @@ int main() {
   // bubble_sort(list, len);
   // merge_sort(list, 0, 3); // left, right는 인덱스임
   // quick_sort(list, 0, 3);
-  radix_sort(list, len);
+  // radix_sort(list, len);
+  shell_sort(list, len);
   for(int i=0;i<len;i++) {
     printf("%d ", list[i]);
   }

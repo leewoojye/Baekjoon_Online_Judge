@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct TreeNode {
     int data;
@@ -40,10 +41,10 @@ TreeNode* insert_node(TreeNode* node, int item) {
   TreeNode* new_node=make_node(item);
   if(!node) return new_node; // 빈 트리면 새 노드를 반환
   if(node->data<item) {
-    node->left=insert_node(node, item); // 순환구조->node를 직접갱신하지 않고 순환호출
+    node->right=insert_node(node->right, item); // 순환구조->node를 직접 갱신하지 않고 순환호출
   }
   else {
-    node->right=insert_node(node, item);
+    node->left=insert_node(node->left, item);
   }
   return node;
 }
@@ -75,7 +76,51 @@ TreeNode* delete_node(TreeNode* node, int item) {
   return node;
 }
 
+// 재귀 탐색
+TreeNode* search_tree(TreeNode* node, int item) {
+  // int flag=0;
+  // if(node==NULL) return 0;
+  // if(node->data==item) return 1;
+  // if(node->left!=NULL && search_tree(node->left,item)) return 1;
+  // if(node->right!=NULL && search_tree(node->right,item)) return 1;
+  // return 0;
+
+  // 이진탐색트리는 좌우 자손, 루트 간 대소관계가 있고 이를 거의 항상 활용함
+  if(node==NULL) return NULL;
+  if(node->data==item) return node;
+  if(node->data>item) return search_tree(node->left,item);
+  else return search_tree(node->right,item);
+  // return NULL;
+}
+
+// 반복 탐색
+TreeNode* search_tree_iter(TreeNode* node, int item) {
+  if(node==NULL) return NULL;
+  while(node!=NULL) {
+    if(node->data==item) return node;
+    if(node->data>item) node=node->left;
+    else node=node->right;
+  }
+  return NULL;
+}
+
+void inorder_traversal(TreeNode* root) {
+  if(root==NULL) return;
+  if(root->left!=NULL) inorder_traversal(root->left);
+  printf("%d ",root->data);
+  if(root->right!=NULL) inorder_traversal(root->right);
+  return;
+}
+
 int main() {
-  
+  srand(time(NULL));
+  TreeNode* root=NULL;
+  int item;
+
+  for(int i=0;i<10;i++) {
+    item=rand()%100+1;
+    root=insert_node(root,item);
+  }
+  inorder_traversal(root);
   return 0;
 }
