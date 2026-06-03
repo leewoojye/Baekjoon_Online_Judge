@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "../week05/queue.h"
 #define MAX_LENGTH 10
 # define BUCKETS 10
@@ -10,9 +11,10 @@ void print_list(int list[], int len) {
   printf("\n");
 }
 
+// 삽입 정렬
 void insertion_sort(int list[], int len) {
   int i,j, key;
-  for(i=1;i<len;i++) {
+  for(i=1;i<len;i++) { // 총 원소수-1만큼만 반복해도 정렬가능
     key=list[i]; // 덮어쓰기 방지 위한 임시 변수 key 
     for(j=i-1;j>=0 && list[j]>key;j--) {
       list[j+1]=list[j];
@@ -23,6 +25,7 @@ void insertion_sort(int list[], int len) {
   return;
 }
 
+// 선택 정렬
 void selection_sort(int list[], int len) {
   int i,j, temp;
   int max_id;
@@ -54,8 +57,22 @@ void shell_selection_sort(int list[], int start, int len, int gap) {
   int tmp;
   for(i=start;i+gap<len;i+=gap) {
     for(j=i+gap;j>=start;j-=gap) {
-      if(list[j-gap]>list[j]) swap(list[j-gap],list[j],tmp);
+      if(list[j-gap]>list[j]) swap(list[j-gap],list[j],tmp); // 반복마다 swap을 하면 교재예제보다 이동비용이 많이듦, 교안에서는 우측이동만 수행하다 마지막에 삽입원소를 한번 대입함 (아래 참고)
     }
+  }
+}
+
+// 단일 부분리스트 삽입 정렬
+void shell_selection_sort_better(int list[], int start, int len, int gap) {
+  int j,key;
+  for(int i=start+gap;i<len;i+=gap) { // 시작위치를 현재 삽입할 노드 기준으로 해야, start는 첫 노드인데 삽입정렬은 두번째 노드부터 삽입대상으로 정함
+    key=list[i]; // 덮어쓰기 방지 위해 삽입노드 key 임시로 저장
+
+    // i가 삽입노드를 가리키므로 삽입비교대상노드는 i보다 gap만큼 작아야 함
+    for(j=i-gap;j>=start&&list[j]>key;j-=gap) { // j는 삽입노드와 비교할 노드를 가리켜야
+      list[j+gap]=list[j];
+    }
+    list[j+gap]=key;
   }
 }
 
@@ -64,7 +81,8 @@ void shell_sort(int list[], int len) {
   if(gap%2==0) gap++;
   for (;gap>1;) {
     for(int i=0;i+gap<len;i++) { // 부분리스트 개수만큼 반복
-      shell_selection_sort(list,i,len,gap);
+      // shell_selection_sort(list,i,len,gap);
+      shell_selection_sort_better(list,i,len,gap);
     }
     gap /= 2;
     if(gap%2==0) gap++;
@@ -157,9 +175,14 @@ void radix_sort(int list[], int len) {
 }
 
 int main() {
-  int list[MAX_LENGTH] = {3,7,32,46};
+  srand(time(NULL));
+  int list[MAX_LENGTH];
   // int len = sizeof(list) / sizeof(list[0]);
-  int len=4;
+  int len=10;
+  for(int i=0;i<len;i++) {
+    list[i]=rand()%100+1;
+  }
+
   // insertion_sort(list, len);
   // selection_sort(list, len);
   // bubble_sort(list, len);
