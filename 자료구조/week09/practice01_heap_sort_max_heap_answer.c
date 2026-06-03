@@ -13,6 +13,7 @@ static void init_heap(HeapType *h)
     h->heap_size = 0;
 }
 
+// 삽입단계에서 sorted는 계속 빈 배열, sorted는 삭제단계에서 정렬결과를 저장하는 역할
 static void print_state(const HeapType *h, const int sorted[], int n)
 {
     printf("Heap   : ");
