@@ -145,11 +145,10 @@ void print_heap_arr(HeapType *h) {
 
 void print_max_heap(HeapType *h) { // heap 출력은 delete heap 사용
   int key;
-  int size=h->heap_size;
+  int size=h->heap_size; // 삭제단계에서 크기가 변하므로 size 변수를 따로 선언
   for(int i=1;i<=size;i++) { // i<=h->heap_size; (X) 힙 삭제연산마다 크기가 줄어서 절반만 출력됨
     key=delete_max_heap(h);
     printf("%d ", key);
-    // print_heap_arr(h);
   }
   printf("\n");
   return;
@@ -157,7 +156,7 @@ void print_max_heap(HeapType *h) { // heap 출력은 delete heap 사용
 
 void print_min_heap(HeapType *h) { // heap 출력은 delete heap 사용
   int key;
-  int size=h->heap_size;
+  int size=h->heap_size; // 삭제단계에서 크기가 변하므로 size 변수를 따로 선언
   for(int i=1;i<=size;i++) { // i<=h->heap_size; (X) 힙 삭제연산마다 크기가 줄어서 절반만 출력됨
     key=delete_min_heap(h);
     printf("%d ", key);

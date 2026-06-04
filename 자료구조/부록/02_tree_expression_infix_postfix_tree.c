@@ -20,17 +20,20 @@ typedef struct {
     int top;
 } NodeStack;
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 문자가 산술 연산자인지 확인한다.
 static int is_operator(char ch)
 {
     return ch == '+' || ch == '-' || ch == '*' || ch == '/';
 }
 
+// 연산자의 우선순위를 반환한다.
 static int precedence(char op)
 {
     switch (op) {
@@ -48,16 +51,19 @@ static int precedence(char op)
     }
 }
 
+// 문자 스택을 빈 상태로 초기화한다.
 static void init_char_stack(CharStack *s)
 {
     s->top = -1;
 }
 
+// 문자 스택이 비어 있는지 확인한다.
 static int is_empty_char(CharStack *s)
 {
     return s->top == -1;
 }
 
+// 문자 스택에 문자를 삽입한다.
 static void push_char(CharStack *s, char item)
 {
     if (s->top >= MAX_STACK_SIZE - 1) {
@@ -66,6 +72,7 @@ static void push_char(CharStack *s, char item)
     s->data[++s->top] = item;
 }
 
+// 문자 스택의 top 문자를 삭제해 반환한다.
 static char pop_char(CharStack *s)
 {
     if (is_empty_char(s)) {
@@ -74,6 +81,7 @@ static char pop_char(CharStack *s)
     return s->data[s->top--];
 }
 
+// 문자 스택의 top 문자를 삭제하지 않고 반환한다.
 static char peek_char(CharStack *s)
 {
     if (is_empty_char(s)) {
@@ -82,6 +90,7 @@ static char peek_char(CharStack *s)
     return s->data[s->top];
 }
 
+// 중위 표기식을 후위 표기식으로 변환한다.
 static void infix_to_postfix(const char *input, char postfix[])
 {
     CharStack s;
@@ -117,16 +126,19 @@ static void infix_to_postfix(const char *input, char postfix[])
     postfix[j] = '\0';
 }
 
+// 트리 노드 스택을 빈 상태로 초기화한다.
 static void init_node_stack(NodeStack *s)
 {
     s->top = -1;
 }
 
+// 트리 노드 스택이 비어 있는지 확인한다.
 static int is_empty_node(NodeStack *s)
 {
     return s->top == -1;
 }
 
+// 트리 노드 스택에 노드 포인터를 삽입한다.
 static void push_node(NodeStack *s, TreeNode *item)
 {
     if (s->top >= MAX_STACK_SIZE - 1) {
@@ -135,6 +147,7 @@ static void push_node(NodeStack *s, TreeNode *item)
     s->data[++s->top] = item;
 }
 
+// 트리 노드 스택의 top 노드를 삭제해 반환한다.
 static TreeNode *pop_node(NodeStack *s)
 {
     if (is_empty_node(s)) {
@@ -143,6 +156,7 @@ static TreeNode *pop_node(NodeStack *s)
     return s->data[s->top--];
 }
 
+// 주어진 데이터와 자식 포인터로 새 트리 노드를 생성한다.
 static TreeNode *make_node(char data, TreeNode *left, TreeNode *right)
 {
     TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
@@ -156,6 +170,7 @@ static TreeNode *make_node(char data, TreeNode *left, TreeNode *right)
     return node;
 }
 
+// 후위 표기식을 이용해 수식 트리를 생성한다.
 static TreeNode *make_expression_tree(const char *postfix)
 {
     NodeStack s;
@@ -176,6 +191,7 @@ static TreeNode *make_expression_tree(const char *postfix)
     return pop_node(&s);
 }
 
+// 수식 트리를 전위 순회하며 출력한다.
 static void preorder(TreeNode *root)
 {
     if (root == NULL) {
@@ -186,6 +202,7 @@ static void preorder(TreeNode *root)
     preorder(root->right);
 }
 
+// 수식 트리를 괄호가 포함된 중위 표기식으로 출력한다.
 static void inorder_expression(TreeNode *root)
 {
     int op;
@@ -206,6 +223,7 @@ static void inorder_expression(TreeNode *root)
     }
 }
 
+// 수식 트리를 후위 순회하며 출력한다.
 static void postorder(TreeNode *root)
 {
     if (root == NULL) {
@@ -216,6 +234,7 @@ static void postorder(TreeNode *root)
     printf("%c ", root->data);
 }
 
+// 수식 트리의 계산 결과를 반환한다.
 static int evaluate(TreeNode *root)
 {
     int op1;
@@ -245,6 +264,7 @@ static int evaluate(TreeNode *root)
     }
 }
 
+// 수식 트리의 높이를 계산한다.
 static int get_height(TreeNode *root)
 {
     int left_height;
@@ -259,6 +279,7 @@ static int get_height(TreeNode *root)
     return (left_height > right_height ? left_height : right_height) + 1;
 }
 
+// 수식 트리에 포함된 리프 노드 수를 계산한다.
 static int get_leaf_count(TreeNode *root)
 {
     if (root == NULL) {
@@ -270,6 +291,7 @@ static int get_leaf_count(TreeNode *root)
     return get_leaf_count(root->left) + get_leaf_count(root->right);
 }
 
+// 수식 트리의 모든 노드를 후위 순회로 해제한다.
 static void destroy_tree(TreeNode *root)
 {
     if (root == NULL) {
@@ -280,6 +302,7 @@ static void destroy_tree(TreeNode *root)
     free(root);
 }
 
+// 중위 표기식 변환, 수식 트리 생성, 순회, 평가를 시연한다.
 int main(void)
 {
     char input[] = "((8/2)+(3*4))-5";

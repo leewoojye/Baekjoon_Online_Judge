@@ -15,11 +15,13 @@ typedef struct GraphType {
   LinkNode* list[MAX_VERTICES];
 } GraphType;
 
+// 인접리스트 그래프를 빈 그래프로 초기화한다.
 void graph_init(GraphType *g)
 {
   g->n = 0;
 }
 
+// 새 인접리스트 노드를 생성한다.
 LinkNode* make_node(int item) {
   LinkNode* node=(LinkNode*)malloc(sizeof(LinkNode));
   node->data=item;
@@ -27,11 +29,13 @@ LinkNode* make_node(int item) {
   return node;
 }
 
+// 그래프에 정점 헤더 노드를 추가한다.
 void insert_vertex(GraphType *g, int v) {
   LinkNode* node=make_node(v);
   g->list[g->n++]=node;
 }
 
+// 무방향 그래프의 두 정점 인접리스트에 간선을 추가한다.
 void insert_edge(GraphType *g, int v1, int v2) {
   // g->list[v1]
   LinkNode *node;
@@ -44,6 +48,7 @@ void insert_edge(GraphType *g, int v1, int v2) {
 }
 
 int visited[MAX_VERTICES]={0};
+// DFS로 시작 정점에서 방문 가능한 정점을 표시한다.
 void dfs_search(GraphType *g, int v) { // 시작점 v
   LinkNode* node=g->list[v]->link;
   if(node==NULL) return;
@@ -54,6 +59,7 @@ void dfs_search(GraphType *g, int v) { // 시작점 v
   }
 }
 
+// DFS 방문 결과로 그래프 전체가 연결되어 있는지 확인한다.
 int check_connection(GraphType *g) {
   visited[0] = 1; // 호출부에서 시작점 방문처리 및 dfs 탐색호출 잊지 말기
   dfs_search(g,0);
@@ -63,6 +69,7 @@ int check_connection(GraphType *g) {
   return 1;
 }
 
+// 연결 그래프 예제 데이터를 만든다.
 void make_connected_graph(GraphType* g)
 {
   graph_init(g);
@@ -80,6 +87,7 @@ void make_connected_graph(GraphType* g)
   insert_edge(g, 3, 6);
 }
 
+// 비연결 그래프 예제 데이터를 만든다.
 void make_disconnected_graph(GraphType* g)
 {
   graph_init(g);
@@ -94,6 +102,7 @@ void make_disconnected_graph(GraphType* g)
   insert_edge(g, 6, 7);
 }
 
+// 인접리스트 그래프의 연결 여부를 출력한다.
 int main() {
   GraphType g;
   make_disconnected_graph(&g);

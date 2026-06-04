@@ -9,6 +9,7 @@ typedef struct {
 
 static int visited[MAX_VERTICES];
 
+// 인접행렬 그래프를 빈 그래프로 초기화한다.
 static void graph_init(GraphType *g)
 {
     g->n = 0;
@@ -19,6 +20,7 @@ static void graph_init(GraphType *g)
     }
 }
 
+// 그래프에 지정한 번호의 정점을 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     if (v >= 0 && v < MAX_VERTICES && v >= g->n) {
@@ -26,6 +28,7 @@ static void insert_vertex(GraphType *g, int v)
     }
 }
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 static void insert_edge(GraphType *g, int u, int v)
 {
     if (u < 0 || v < 0 || u >= g->n || v >= g->n) {
@@ -35,6 +38,7 @@ static void insert_edge(GraphType *g, int u, int v)
     g->adj_mat[v][u] = 1;
 }
 
+// 방문 배열을 모두 미방문 상태로 초기화한다.
 static void clear_visited(void)
 {
     for (int i = 0; i < MAX_VERTICES; i++) {
@@ -42,6 +46,7 @@ static void clear_visited(void)
     }
 }
 
+// DFS 중 부모가 아닌 방문 정점을 만나면 사이클이 있음을 반환한다.
 static int dfs_cycle(GraphType *g, int v, int parent)
 {
     visited[v] = 1;
@@ -61,6 +66,7 @@ static int dfs_cycle(GraphType *g, int v, int parent)
     return 0;
 }
 
+// 그래프 전체에 사이클 경로가 존재하는지 확인한다.
 static int has_cycle(GraphType *g)
 {
     clear_visited();
@@ -72,6 +78,7 @@ static int has_cycle(GraphType *g)
     return 0;
 }
 
+// 시작 정점으로 되돌아오는 단순 사이클 경로를 DFS로 찾는다.
 static int dfs_same_start_end_cycle(GraphType *g, int start, int v, int depth)
 {
     visited[v] = 1;
@@ -92,6 +99,8 @@ static int dfs_same_start_end_cycle(GraphType *g, int start, int v, int depth)
     return 0;
 }
 
+// 특정 정점에서 시작하고 끝나는 단순 사이클 경로가 있는지 확인한다.
+// 모든 정점의 방문을 보장하지는 않음
 static int has_same_start_end_cycle(GraphType *g, int start)
 {
     if (start < 0 || start >= g->n) {
@@ -101,6 +110,7 @@ static int has_same_start_end_cycle(GraphType *g, int start)
     return dfs_same_start_end_cycle(g, start, start, 0);
 }
 
+// 그래프의 인접행렬을 출력한다.
 static void print_adj_mat(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -111,6 +121,7 @@ static void print_adj_mat(GraphType *g)
     }
 }
 
+// 각 정점별 시작/종료 동일 단순 사이클 존재 여부를 출력한다.
 static void print_same_start_end_cycles(GraphType *g)
 {
     printf("Same start/end cycle: ");
@@ -123,6 +134,7 @@ static void print_same_start_end_cycles(GraphType *g)
     printf("\n");
 }
 
+// 그래프의 사이클 판별 결과를 출력한다.
 static void print_result(const char *title, GraphType *g)
 {
     printf("===== %s =====\n", title);
@@ -132,6 +144,7 @@ static void print_result(const char *title, GraphType *g)
     printf("\n");
 }
 
+// 사이클이 있는 예제 그래프를 만든다.
 static void make_cycle_graph(GraphType *g)
 {
     graph_init(g);
@@ -148,6 +161,7 @@ static void make_cycle_graph(GraphType *g)
     insert_edge(g, 4, 5);
 }
 
+// 사이클이 없는 예제 그래프를 만든다.
 static void make_acyclic_graph(GraphType *g)
 {
     graph_init(g);
@@ -163,6 +177,7 @@ static void make_acyclic_graph(GraphType *g)
     insert_edge(g, 2, 5);
 }
 
+// 분리 그래프 안에 사이클이 있는 예제 그래프를 만든다.
 static void make_disconnected_cycle_graph(GraphType *g)
 {
     graph_init(g);
@@ -179,6 +194,7 @@ static void make_disconnected_cycle_graph(GraphType *g)
     insert_edge(g, 5, 3);
 }
 
+// 세 가지 그래프의 사이클 경로 존재 여부를 테스트한다.
 int main(void)
 {
     GraphType g;

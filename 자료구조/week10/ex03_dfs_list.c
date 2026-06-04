@@ -17,6 +17,7 @@ typedef struct GraphType {
 
 static int visited[MAX_VERTICES];
 
+// 인접리스트 그래프와 방문 배열을 초기화한다.
 static void graph_init(GraphType *g)
 {
     g->n = 0;
@@ -26,12 +27,14 @@ static void graph_init(GraphType *g)
     }
 }
 
+// 그래프에 정점을 하나 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     (void)v;
     g->n++;
 }
 
+// 방향 그래프에 단방향 간선을 추가한다.
 static void insert_directed_edge(GraphType *g, int start, int end)
 {
     GraphNode *node = (GraphNode *)malloc(sizeof(GraphNode));
@@ -44,12 +47,14 @@ static void insert_directed_edge(GraphType *g, int start, int end)
     g->adj_list[start] = node;
 }
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 static void insert_edge(GraphType *g, int start, int end)
 {
     insert_directed_edge(g, start, end);
     insert_directed_edge(g, end, start);
 }
 
+// 인접리스트 그래프를 DFS로 순회하며 방문 정점을 출력한다.
 static void dfs_list(GraphType *g, int v)
 {
     GraphNode *w;
@@ -63,6 +68,7 @@ static void dfs_list(GraphType *g, int v)
     }
 }
 
+// 인접리스트 그래프의 동적 간선 노드들을 해제한다.
 static void free_graph(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -75,6 +81,7 @@ static void free_graph(GraphType *g)
     }
 }
 
+// 인접리스트 그래프를 만들고 DFS 순회를 실행한다.
 int main(void)
 {
     GraphType g;

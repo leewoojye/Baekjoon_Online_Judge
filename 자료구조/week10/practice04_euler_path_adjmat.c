@@ -9,6 +9,7 @@ typedef struct {
 
 static int visited[MAX_VERTICES];
 
+// 인접행렬 그래프를 빈 다중 그래프로 초기화한다.
 static void graph_init(GraphType *g)
 {
     g->n = 0;
@@ -19,6 +20,7 @@ static void graph_init(GraphType *g)
     }
 }
 
+// 그래프에 지정한 번호의 정점을 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     if (v >= 0 && v < MAX_VERTICES && v >= g->n) {
@@ -26,6 +28,7 @@ static void insert_vertex(GraphType *g, int v)
     }
 }
 
+// 무방향 다중 그래프에 간선을 하나 추가한다.
 static void insert_edge(GraphType *g, int u, int v)
 {
     if (u < 0 || v < 0 || u >= g->n || v >= g->n) {
@@ -35,6 +38,7 @@ static void insert_edge(GraphType *g, int u, int v)
     g->adj_mat[v][u]++;
 }
 
+// 방문 배열을 모두 미방문 상태로 초기화한다.
 static void clear_visited(void)
 {
     for (int i = 0; i < MAX_VERTICES; i++) {
@@ -42,6 +46,7 @@ static void clear_visited(void)
     }
 }
 
+// 정점의 차수를 계산한다.
 static int degree(GraphType *g, int v)
 {
     int count = 0;
@@ -56,6 +61,7 @@ static int degree(GraphType *g, int v)
     return count;
 }
 
+// 간선을 가진 첫 번째 정점을 찾는다.
 static int first_vertex_with_edge(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -66,6 +72,7 @@ static int first_vertex_with_edge(GraphType *g)
     return -1;
 }
 
+// DFS로 간선이 있는 연결 요소를 방문한다.
 static void dfs(GraphType *g, int v)
 {
     visited[v] = 1;
@@ -77,6 +84,7 @@ static void dfs(GraphType *g, int v)
     }
 }
 
+// 오일러 판별에 필요한 연결 조건을 확인한다.
 static int is_connected_for_euler(GraphType *g)
 {
     int start = first_vertex_with_edge(g);
@@ -96,6 +104,7 @@ static int is_connected_for_euler(GraphType *g)
     return 1;
 }
 
+// 홀수 차수 정점의 개수를 센다.
 static int count_odd_degree_vertices(GraphType *g)
 {
     int odd_count = 0;
@@ -108,6 +117,7 @@ static int count_odd_degree_vertices(GraphType *g)
     return odd_count;
 }
 
+// 오일러 경로가 존재하는지 확인한다.
 static int has_euler_path(GraphType *g)
 {
     int odd_count;
@@ -120,6 +130,7 @@ static int has_euler_path(GraphType *g)
     return odd_count == 0 || odd_count == 2;
 }
 
+// 오일러 회로가 존재하는지 확인한다.
 static int has_euler_circuit(GraphType *g)
 {
     if (!is_connected_for_euler(g)) {
@@ -128,6 +139,7 @@ static int has_euler_circuit(GraphType *g)
     return count_odd_degree_vertices(g) == 0;
 }
 
+// 각 정점의 차수를 출력한다.
 static void print_degrees(GraphType *g)
 {
     printf("Degree: ");
@@ -140,6 +152,7 @@ static void print_degrees(GraphType *g)
     printf("\n");
 }
 
+// 홀수 차수 정점들을 출력한다.
 static void print_odd_vertices(GraphType *g)
 {
     int found = 0;
@@ -157,6 +170,7 @@ static void print_odd_vertices(GraphType *g)
     printf("\n");
 }
 
+// 그래프의 오일러 경로와 회로 판별 결과를 출력한다.
 static void print_result(const char *title, GraphType *g)
 {
     printf("===== %s =====\n", title);
@@ -171,6 +185,7 @@ static void print_result(const char *title, GraphType *g)
     printf("\n");
 }
 
+// 쾨니히스베르크 다리 그래프 예제를 만든다.
 static void make_konigsberg_graph(GraphType *g)
 {
     graph_init(g);
@@ -188,6 +203,7 @@ static void make_konigsberg_graph(GraphType *g)
     insert_edge(g, 2, 3);
 }
 
+// 오일러 경로만 존재하는 예제 그래프를 만든다.
 static void make_euler_path_graph(GraphType *g)
 {
     graph_init(g);
@@ -202,6 +218,7 @@ static void make_euler_path_graph(GraphType *g)
     insert_edge(g, 2, 3);
 }
 
+// 오일러 회로가 존재하는 예제 그래프를 만든다.
 static void make_euler_circuit_graph(GraphType *g)
 {
     graph_init(g);
@@ -216,6 +233,7 @@ static void make_euler_circuit_graph(GraphType *g)
     insert_edge(g, 3, 0);
 }
 
+// 세 가지 그래프의 오일러 경로 존재 여부를 테스트한다.
 int main(void)
 {
     GraphType g;

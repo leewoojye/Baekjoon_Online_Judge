@@ -8,6 +8,7 @@ typedef struct {
     int score;
 } Student;
 
+// 학생 배열을 다른 배열로 복사한다.
 static void copy_students(Student dest[], const Student src[], int n)
 {
     for (int i = 0; i < n; i++) {
@@ -15,11 +16,13 @@ static void copy_students(Student dest[], const Student src[], int n)
     }
 }
 
+// 학생을 학번 오름차순으로 비교한다.
 static int compare_id(Student a, Student b)
 {
     return a.id - b.id;
 }
 
+// 학생을 점수 내림차순, 동점이면 학번 오름차순으로 비교한다.
 static int compare_score(Student a, Student b)
 {
     if (a.score != b.score) {
@@ -28,6 +31,7 @@ static int compare_score(Student a, Student b)
     return a.id - b.id;
 }
 
+// 전달된 비교 함수를 기준으로 학생 배열을 삽입 정렬한다.
 static void insertion_sort(Student list[], int n, int (*compare)(Student, Student))
 {
     int i;
@@ -43,6 +47,7 @@ static void insertion_sort(Student list[], int n, int (*compare)(Student, Studen
     }
 }
 
+// 학생 배열을 제목과 함께 표 형태로 출력한다.
 static void print_students(const char *title, const Student list[], int n)
 {
     printf("[%s]\n", title);
@@ -55,6 +60,7 @@ static void print_students(const char *title, const Student list[], int n)
     printf("\n");
 }
 
+// 학생 데이터를 학번순과 점수순으로 정렬해 출력한다.
 int main(void)
 {
     Student students[] = {

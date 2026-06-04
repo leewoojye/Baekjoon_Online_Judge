@@ -17,12 +17,14 @@ typedef struct {
 static int sorted[MAX_SIZE];
 static int trace_size;
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 정수 배열의 모든 원소를 한 줄에 출력한다.
 static void print_array(int list[], int n)
 {
     for (int i = 0; i < n; i++) {
@@ -31,6 +33,7 @@ static void print_array(int list[], int n)
     printf("\n");
 }
 
+// 원본 배열을 대상 배열로 복사한다.
 static void copy_array(int dest[], int src[], int n)
 {
     for (int i = 0; i < n; i++) {
@@ -38,6 +41,7 @@ static void copy_array(int dest[], int src[], int n)
     }
 }
 
+// 선택 정렬로 배열을 오름차순 정렬한다.
 static void selection_sort(int list[], int n)
 {
     int i;
@@ -56,6 +60,7 @@ static void selection_sort(int list[], int n)
     }
 }
 
+// 삽입 정렬로 배열을 오름차순 정렬한다.
 static void insertion_sort(int list[], int n)
 {
     int i;
@@ -71,6 +76,7 @@ static void insertion_sort(int list[], int n)
     }
 }
 
+// 버블 정렬로 배열을 오름차순 정렬한다.
 static void bubble_sort(int list[], int n)
 {
     int i;
@@ -86,6 +92,7 @@ static void bubble_sort(int list[], int n)
     }
 }
 
+// 지정한 gap 간격의 부분 배열을 삽입 정렬한다.
 static void inc_insertion_sort(int list[], int first, int last, int gap)
 {
     int i;
@@ -101,6 +108,7 @@ static void inc_insertion_sort(int list[], int first, int last, int gap)
     }
 }
 
+// 셸 정렬로 배열을 오름차순 정렬한다.
 static void shell_sort(int list[], int n)
 {
     int gap;
@@ -115,6 +123,7 @@ static void shell_sort(int list[], int n)
     }
 }
 
+// 병합 정렬에서 두 정렬 구간을 합친다.
 static void merge(int list[], int left, int mid, int right, int trace)
 {
     int i = left;
@@ -150,6 +159,7 @@ static void merge(int list[], int left, int mid, int right, int trace)
     }
 }
 
+// 병합 정렬을 수행하며 필요하면 병합 과정을 출력한다.
 static void merge_sort_trace(int list[], int left, int right, int trace)
 {
     if (left < right) {
@@ -160,6 +170,7 @@ static void merge_sort_trace(int list[], int left, int right, int trace)
     }
 }
 
+// 퀵 정렬의 분할을 수행하고 피벗 위치를 반환한다.
 static int partition_trace(int list[], int left, int right, int trace)
 {
     int pivot = list[left];
@@ -192,6 +203,7 @@ static int partition_trace(int list[], int left, int right, int trace)
     return high;
 }
 
+// 퀵 정렬을 수행하며 필요하면 분할 과정을 출력한다.
 static void quick_sort_trace(int list[], int left, int right, int trace)
 {
     if (left < right) {
@@ -201,22 +213,26 @@ static void quick_sort_trace(int list[], int left, int right, int trace)
     }
 }
 
+// 기수 정렬 버킷에 사용할 원형 큐를 초기화한다.
 static void init_queue(QueueType *q)
 {
     q->front = 0;
     q->rear = 0;
 }
 
+// 원형 큐가 비어 있는지 확인한다.
 static int is_empty(QueueType *q)
 {
     return q->front == q->rear;
 }
 
+// 원형 큐가 가득 찼는지 확인한다.
 static int is_full(QueueType *q)
 {
     return (q->rear + 1) % MAX_QUEUE_SIZE == q->front;
 }
 
+// 원형 큐에 정수를 삽입한다.
 static void enqueue(QueueType *q, int item)
 {
     if (is_full(q)) {
@@ -226,6 +242,7 @@ static void enqueue(QueueType *q, int item)
     q->data[q->rear] = item;
 }
 
+// 원형 큐에서 정수를 삭제해 반환한다.
 static int dequeue(QueueType *q)
 {
     if (is_empty(q)) {
@@ -235,6 +252,7 @@ static int dequeue(QueueType *q)
     return q->data[q->front];
 }
 
+// 원형 큐에 들어 있는 값을 순서대로 출력한다.
 static void print_queue(QueueType *q)
 {
     int i = (q->front + 1) % MAX_QUEUE_SIZE;
@@ -245,6 +263,7 @@ static void print_queue(QueueType *q)
     }
 }
 
+// 비어 있지 않은 기수 정렬 버킷들을 출력한다.
 static void print_buckets(QueueType buckets[])
 {
     for (int i = 0; i < BUCKETS; i++) {
@@ -256,6 +275,7 @@ static void print_buckets(QueueType buckets[])
     }
 }
 
+// 기수 정렬을 수행하며 자리수별 버킷 상태를 출력한다.
 static void radix_sort_trace(int list[], int n, int digits, int trace)
 {
     QueueType buckets[BUCKETS];
@@ -292,6 +312,7 @@ static void radix_sort_trace(int list[], int n, int digits, int trace)
     }
 }
 
+// 단순 정렬 알고리즘들의 결과를 차례로 출력한다.
 static void run_simple_sort_examples(int original[], int n)
 {
     int list[MAX_SIZE];
@@ -317,6 +338,7 @@ static void run_simple_sort_examples(int original[], int n)
     print_array(list, n);
 }
 
+// 여러 정렬 알고리즘과 추적 출력을 한 번에 시연한다.
 int main(void)
 {
     int original[] = { 4, 7, 1, 8, 6, 2, 5, 3 };

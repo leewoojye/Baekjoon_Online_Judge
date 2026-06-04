@@ -24,12 +24,14 @@ typedef struct {
     int capacity;
 } MinHeapType;
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 최대 힙을 지정한 초기 용량으로 초기화한다.
 static void init_max_heap(MaxHeapType *h, int capacity)
 {
     if (capacity < 1) {
@@ -45,6 +47,7 @@ static void init_max_heap(MaxHeapType *h, int capacity)
     h->capacity = capacity;
 }
 
+// 최대 힙이 사용 중인 동적 메모리를 해제한다.
 static void destroy_max_heap(MaxHeapType *h)
 {
     free(h->heap);
@@ -53,6 +56,7 @@ static void destroy_max_heap(MaxHeapType *h)
     h->capacity = 0;
 }
 
+// 최대 힙의 용량을 두 배로 늘린다.
 static void resize_max_heap(MaxHeapType *h)
 {
     int new_capacity = h->capacity * 2;
@@ -66,6 +70,7 @@ static void resize_max_heap(MaxHeapType *h)
     h->capacity = new_capacity;
 }
 
+// 최대 힙에 새 원소를 삽입한다.
 static void insert_max_heap(MaxHeapType *h, MaxElement item)
 {
     int i;
@@ -82,6 +87,7 @@ static void insert_max_heap(MaxHeapType *h, MaxElement item)
     h->heap[i] = item;
 }
 
+// 최대 힙에서 가장 큰 원소를 삭제해 반환한다.
 static MaxElement delete_max_heap(MaxHeapType *h)
 {
     int parent;
@@ -113,6 +119,7 @@ static MaxElement delete_max_heap(MaxHeapType *h)
     return item;
 }
 
+// 최대 힙의 내부 배열 상태를 출력한다.
 static void print_max_heap(MaxHeapType *h)
 {
     printf("Heap   : ");
@@ -122,6 +129,7 @@ static void print_max_heap(MaxHeapType *h)
     printf("\n");
 }
 
+// 힙 정렬 결과 배열을 출력한다.
 static void print_sorted(int sorted[], int n)
 {
     printf("Sorted : ");
@@ -135,6 +143,7 @@ static void print_sorted(int sorted[], int n)
     printf("\n\n");
 }
 
+// 최대 힙을 이용한 힙 정렬 과정을 단계별로 출력한다.
 static void heap_sort_trace(int input[], int n)
 {
     MaxHeapType h;
@@ -168,6 +177,7 @@ static void heap_sort_trace(int input[], int n)
     destroy_max_heap(&h);
 }
 
+// 최대 힙을 이용해 입력 배열을 내림차순으로 정렬한다.
 static void heap_sort_desc(int input[], int output[], int n)
 {
     MaxHeapType h;
@@ -185,6 +195,7 @@ static void heap_sort_desc(int input[], int output[], int n)
     destroy_max_heap(&h);
 }
 
+// 기계의 사용 가능 시간이 더 빠른지 비교한다.
 static int less_machine(MinElement a, MinElement b)
 {
     if (a.avail != b.avail) {
@@ -193,6 +204,7 @@ static int less_machine(MinElement a, MinElement b)
     return a.id < b.id;
 }
 
+// 최소 힙을 지정한 초기 용량으로 초기화한다.
 static void init_min_heap(MinHeapType *h, int capacity)
 {
     if (capacity < 1) {
@@ -208,6 +220,7 @@ static void init_min_heap(MinHeapType *h, int capacity)
     h->capacity = capacity;
 }
 
+// 최소 힙이 사용 중인 동적 메모리를 해제한다.
 static void destroy_min_heap(MinHeapType *h)
 {
     free(h->heap);
@@ -216,6 +229,7 @@ static void destroy_min_heap(MinHeapType *h)
     h->capacity = 0;
 }
 
+// 최소 힙의 용량을 두 배로 늘린다.
 static void resize_min_heap(MinHeapType *h)
 {
     int new_capacity = h->capacity * 2;
@@ -229,6 +243,7 @@ static void resize_min_heap(MinHeapType *h)
     h->capacity = new_capacity;
 }
 
+// 최소 힙에 기계 정보를 삽입한다.
 static void insert_min_heap(MinHeapType *h, MinElement item)
 {
     int i;
@@ -245,6 +260,7 @@ static void insert_min_heap(MinHeapType *h, MinElement item)
     h->heap[i] = item;
 }
 
+// 최소 힙에서 가장 빨리 사용 가능한 기계를 삭제해 반환한다.
 static MinElement delete_min_heap(MinHeapType *h)
 {
     int parent;
@@ -276,6 +292,7 @@ static MinElement delete_min_heap(MinHeapType *h)
     return item;
 }
 
+// LPT 규칙으로 작업을 기계에 배정하고 최종 시간을 출력한다.
 static void schedule_lpt(int jobs[], int job_count, int machine_count)
 {
     int *sorted_jobs = (int *)malloc(sizeof(int) * job_count);
@@ -328,6 +345,7 @@ static void schedule_lpt(int jobs[], int job_count, int machine_count)
     destroy_min_heap(&h);
 }
 
+// 힙 정렬 추적과 LPT 스케줄링 예제를 실행한다.
 int main(void)
 {
     int input[] = { 23, 56, 11, 9, 40, 99, 27, 34 };

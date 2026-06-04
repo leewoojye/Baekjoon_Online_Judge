@@ -15,6 +15,7 @@ static int distance[MAX_VERTICES];
 static int selected[MAX_VERTICES];
 static int previous[MAX_VERTICES];
 
+// 가중치 인접행렬을 INF 기준의 빈 그래프로 초기화한다.
 static void graph_init(GraphType *g)
 {
     g->n = 0;
@@ -29,6 +30,7 @@ static void graph_init(GraphType *g)
     }
 }
 
+// 그래프에 정점을 하나 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     (void)v;
@@ -39,6 +41,7 @@ static void insert_vertex(GraphType *g, int v)
     g->n++;
 }
 
+// 무방향 가중치 그래프에 간선을 추가한다.
 static void insert_edge(GraphType *g, int start, int end, int weight)
 {
     if (start >= g->n || end >= g->n || start < 0 || end < 0) {
@@ -53,6 +56,7 @@ static void insert_edge(GraphType *g, int start, int end, int weight)
     g->weight[end][start] = weight;
 }
 
+// 아직 선택되지 않은 정점 중 거리가 가장 짧은 정점을 고른다.
 static int choose(GraphType *g)
 {
     int min = INF;
@@ -67,6 +71,7 @@ static int choose(GraphType *g)
     return minpos;
 }
 
+// 현재 최단 거리 배열을 출력한다.
 static void print_status(GraphType *g)
 {
     printf("distance: ");
@@ -80,6 +85,7 @@ static void print_status(GraphType *g)
     printf("\n");
 }
 
+// 시작 정점에서 모든 정점까지의 최단 거리를 다익스트라로 계산한다.
 static void dijkstra(GraphType *g, int start)
 {
     int u;
@@ -118,6 +124,7 @@ static void dijkstra(GraphType *g, int start)
     }
 }
 
+// previous 배열을 따라 시작 정점부터 도착 정점까지의 경로를 출력한다.
 static void print_path(int start, int end)
 {
     if (end == start) {
@@ -132,6 +139,7 @@ static void print_path(int start, int end)
     printf(" -> %d", end);
 }
 
+// 시작 정점에서 각 정점까지의 최단 거리와 경로를 출력한다.
 static void print_shortest_paths(GraphType *g, int start)
 {
     for (int i = 0; i < g->n; i++) {
@@ -146,6 +154,7 @@ static void print_shortest_paths(GraphType *g, int start)
     }
 }
 
+// 가중치 그래프를 만들고 다익스트라 최단 경로를 실행한다.
 int main(void)
 {
     GraphType *g = (GraphType *)malloc(sizeof(GraphType));

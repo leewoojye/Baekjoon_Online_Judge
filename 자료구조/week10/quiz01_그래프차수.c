@@ -7,12 +7,14 @@ typedef struct GraphType {
     int adj_mat[VERTICES][VERTICES];
 } GraphType;
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 static void insert_edge(GraphType *g, int a, int b)
 {
     g->adj_mat[a][b] = 1;
     g->adj_mat[b][a] = 1;
 }
 
+// 인접행렬에서 정점의 차수를 계산한다.
 static int get_degree(GraphType *g, int v)
 {
     int degree = 0;
@@ -23,6 +25,7 @@ static int get_degree(GraphType *g, int v)
     return degree;
 }
 
+// 그래프의 인접행렬을 출력한다.
 static void print_matrix(GraphType *g)
 {
     printf("adjacency matrix:\n");
@@ -34,6 +37,7 @@ static void print_matrix(GraphType *g)
     }
 }
 
+// 인접행렬을 이용해 인접리스트 형태로 출력한다.
 static void print_list(GraphType *g)
 {
     printf("\nadjacency list:\n");
@@ -48,6 +52,7 @@ static void print_list(GraphType *g)
     }
 }
 
+// 그래프 표현과 특정 정점의 차수 계산을 실행한다.
 int main(void)
 {
     GraphType g = { 0 };

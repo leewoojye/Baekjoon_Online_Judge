@@ -19,12 +19,14 @@ typedef struct {
 
 static int visited[MAX_VERTICES];
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 인접행렬 그래프를 빈 그래프로 초기화한다.
 static void graph_init(GraphType *g)
 {
     g->n = 0;
@@ -35,6 +37,7 @@ static void graph_init(GraphType *g)
     }
 }
 
+// 그래프에 정점을 하나 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     if (g->n >= MAX_VERTICES) {
@@ -44,6 +47,7 @@ static void insert_vertex(GraphType *g, int v)
     g->n++;
 }
 
+// 간선을 추가하기 전에 정점 번호가 유효한지 검사한다.
 static void check_vertex(GraphType *g, int start, int end)
 {
     if (start < 0 || end < 0 || start >= g->n || end >= g->n) {
@@ -51,6 +55,7 @@ static void check_vertex(GraphType *g, int start, int end)
     }
 }
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 static void insert_edge(GraphType *g, int start, int end)
 {
     check_vertex(g, start, end);
@@ -58,12 +63,14 @@ static void insert_edge(GraphType *g, int start, int end)
     g->adj_mat[end][start] = 1;
 }
 
+// 방향 그래프에 단방향 간선을 추가한다.
 static void insert_directed_edge(GraphType *g, int start, int end)
 {
     check_vertex(g, start, end);
     g->adj_mat[start][end] = 1;
 }
 
+// 그래프의 방문 배열을 모두 미방문 상태로 초기화한다.
 static void reset_visited(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -71,6 +78,7 @@ static void reset_visited(GraphType *g)
     }
 }
 
+// 무방향 그래프에서 정점의 차수를 계산한다.
 static int get_degree(GraphType *g, int v)
 {
     int count = 0;
@@ -83,6 +91,7 @@ static int get_degree(GraphType *g, int v)
     return count;
 }
 
+// 방향 그래프에서 정점의 진출 차수를 계산한다.
 static int get_outdegree(GraphType *g, int v)
 {
     int count = 0;
@@ -95,6 +104,7 @@ static int get_outdegree(GraphType *g, int v)
     return count;
 }
 
+// 방향 그래프에서 정점의 진입 차수를 계산한다.
 static int get_indegree(GraphType *g, int v)
 {
     int count = 0;
@@ -107,6 +117,7 @@ static int get_indegree(GraphType *g, int v)
     return count;
 }
 
+// 그래프의 인접행렬을 출력한다.
 static void print_adj_mat(GraphType *g)
 {
     printf("adjacency matrix\n");
@@ -118,6 +129,7 @@ static void print_adj_mat(GraphType *g)
     }
 }
 
+// 인접행렬 그래프를 DFS로 순회하며 방문 순서를 출력한다.
 static void dfs_mat(GraphType *g, int v)
 {
     visited[v] = TRUE;
@@ -130,6 +142,7 @@ static void dfs_mat(GraphType *g, int v)
     }
 }
 
+// 하나의 연결 요소를 DFS로 순회하며 정점을 출력한다.
 static void dfs_component(GraphType *g, int v)
 {
     visited[v] = TRUE;
@@ -142,6 +155,7 @@ static void dfs_component(GraphType *g, int v)
     }
 }
 
+// 모든 정점이 방문되었는지 확인한다.
 static int all_visited(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -152,6 +166,7 @@ static int all_visited(GraphType *g)
     return TRUE;
 }
 
+// 아직 방문하지 않은 정점들을 출력한다.
 static void print_unvisited(GraphType *g)
 {
     int found = FALSE;
@@ -169,6 +184,7 @@ static void print_unvisited(GraphType *g)
     printf("\n");
 }
 
+// 각 정점을 시작점으로 DFS를 수행해 연결 여부를 검사한다.
 static void test_connected_from_each_start(GraphType *g)
 {
     for (int start = 0; start < g->n; start++) {
@@ -187,6 +203,7 @@ static void test_connected_from_each_start(GraphType *g)
     }
 }
 
+// DFS로 연결 요소를 세고 각 요소의 정점을 출력한다.
 static int count_and_print_components(GraphType *g)
 {
     int count = 0;
@@ -207,22 +224,26 @@ static int count_and_print_components(GraphType *g)
     return count;
 }
 
+// BFS에 사용할 원형 큐를 초기화한다.
 static void init_queue(QueueType *q)
 {
     q->front = 0;
     q->rear = 0;
 }
 
+// 원형 큐가 비어 있는지 확인한다.
 static int is_empty(QueueType *q)
 {
     return q->front == q->rear;
 }
 
+// 원형 큐가 가득 찼는지 확인한다.
 static int is_full(QueueType *q)
 {
     return (q->rear + 1) % MAX_QUEUE_SIZE == q->front;
 }
 
+// 원형 큐에 정점 번호를 삽입한다.
 static void enqueue(QueueType *q, int item)
 {
     if (is_full(q)) {
@@ -232,6 +253,7 @@ static void enqueue(QueueType *q, int item)
     q->data[q->rear] = item;
 }
 
+// 원형 큐에서 정점 번호를 삭제해 반환한다.
 static int dequeue(QueueType *q)
 {
     if (is_empty(q)) {
@@ -241,6 +263,7 @@ static int dequeue(QueueType *q)
     return q->data[q->front];
 }
 
+// BFS로 시작 정점부터 각 정점까지의 거리를 계산한다.
 static void bfs_distance(GraphType *g, int start, int dist[])
 {
     QueueType q;
@@ -269,6 +292,7 @@ static void bfs_distance(GraphType *g, int start, int dist[])
     printf("\n");
 }
 
+// DFS로 현재 정점에서 목표 정점까지 경로가 있는지 탐색한다.
 static int path_exists_dfs(GraphType *g, int v, int target)
 {
     if (v == target) {
@@ -287,12 +311,14 @@ static int path_exists_dfs(GraphType *g, int v, int target)
     return FALSE;
 }
 
+// 방문 배열을 초기화한 뒤 두 정점 사이의 경로 존재 여부를 반환한다.
 static int path_exists(GraphType *g, int start, int target)
 {
     reset_visited(g);
     return path_exists_dfs(g, start, target);
 }
 
+// 간선 목록으로 무방향 인접행렬 그래프를 만든다.
 static void make_undirected_graph_from_edges(GraphType *g, int n, int edges[][2], int edge_count)
 {
     graph_init(g);
@@ -304,6 +330,7 @@ static void make_undirected_graph_from_edges(GraphType *g, int n, int edges[][2]
     }
 }
 
+// 간선 목록으로 방향 인접행렬 그래프를 만든다.
 static void make_directed_graph_from_edges(GraphType *g, int n, int edges[][2], int edge_count)
 {
     graph_init(g);
@@ -315,6 +342,7 @@ static void make_directed_graph_from_edges(GraphType *g, int n, int edges[][2], 
     }
 }
 
+// 인접행렬 그래프의 DFS, BFS, 연결성, 차수, 경로 질의를 시연한다.
 int main(void)
 {
     GraphType g;

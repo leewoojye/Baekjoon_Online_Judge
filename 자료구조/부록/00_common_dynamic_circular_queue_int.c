@@ -11,12 +11,14 @@ typedef struct {
     int capacity;
 } QueueType;
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 큐를 지정한 초기 용량으로 초기화한다.
 static void init_queue(QueueType *q, int capacity)
 {
     if (capacity < 1) {
@@ -34,6 +36,7 @@ static void init_queue(QueueType *q, int capacity)
     q->capacity = capacity;
 }
 
+// 큐가 사용 중인 동적 메모리를 해제한다.
 static void destroy_queue(QueueType *q)
 {
     free(q->data);
@@ -44,16 +47,19 @@ static void destroy_queue(QueueType *q)
     q->capacity = 0;
 }
 
+// 큐가 비어 있는지 확인한다.
 static int is_empty(QueueType *q)
 {
     return q->size == 0;
 }
 
+// 큐가 가득 찼는지 확인한다.
 static int is_full(QueueType *q)
 {
     return q->size == q->capacity;
 }
 
+// 큐 용량을 두 배로 늘리고 기존 원형 순서를 보존한다.
 static void resize_queue(QueueType *q)
 {
     int old_capacity = q->capacity;
@@ -76,6 +82,7 @@ static void resize_queue(QueueType *q)
     q->rear = q->size - 1;
 }
 
+// 큐의 rear에 새 원소를 삽입한다.
 static void enqueue(QueueType *q, element item)
 {
     if (is_full(q)) {
@@ -87,6 +94,7 @@ static void enqueue(QueueType *q, element item)
     q->size++;
 }
 
+// 큐의 front에서 원소를 삭제해 반환한다.
 static element dequeue(QueueType *q)
 {
     if (is_empty(q)) {
@@ -98,6 +106,7 @@ static element dequeue(QueueType *q)
     return q->data[q->front];
 }
 
+// 현재 큐에 들어 있는 원소들을 순서대로 출력한다.
 static void print_queue(QueueType *q)
 {
     printf("[ ");
@@ -108,6 +117,7 @@ static void print_queue(QueueType *q)
     printf("]");
 }
 
+// 큐 연산 입력 배열을 출력한다.
 static void print_operations(int operations[], int n)
 {
     printf("operations: ");
@@ -120,6 +130,7 @@ static void print_operations(int operations[], int n)
     printf("\n");
 }
 
+// 동적 원형 큐의 삽입, 삭제, 자동 확장을 시연한다.
 int main(void)
 {
     int operations[] = { 1, 2, 3, -1, 4, 5, 6, 7, 8, -1 };

@@ -8,6 +8,7 @@ typedef struct GraphType {
     int adj_mat[MAX_VERTICES][MAX_VERTICES];
 } GraphType;
 
+// 인접행렬 그래프를 빈 그래프로 초기화한다.
 static void init(GraphType *g)
 {
     g->n = 0;
@@ -18,6 +19,7 @@ static void init(GraphType *g)
     }
 }
 
+// 그래프에 정점을 하나 추가한다.
 static void insert_vertex(GraphType *g, int v)
 {
     (void)v;
@@ -28,6 +30,7 @@ static void insert_vertex(GraphType *g, int v)
     g->n++;
 }
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 static void insert_edge(GraphType *g, int start, int end)
 {
     if (start >= g->n || end >= g->n) {
@@ -38,6 +41,7 @@ static void insert_edge(GraphType *g, int start, int end)
     g->adj_mat[end][start] = 1;
 }
 
+// 그래프의 인접행렬을 출력한다.
 static void print_adj_mat(GraphType *g)
 {
     for (int i = 0; i < g->n; i++) {
@@ -48,6 +52,7 @@ static void print_adj_mat(GraphType *g)
     }
 }
 
+// 인접행렬 그래프를 생성하고 출력한다.
 int main(void)
 {
     GraphType *g = (GraphType *)malloc(sizeof(GraphType));

@@ -9,20 +9,24 @@ typedef struct GraphType {
   int size;
 } GraphType;
 
+// 인접행렬 그래프를 빈 그래프로 초기화한다.
 void graph_init(GraphType* g) {
   g->size = 0;
   memset(g->adj_matrix, 0, sizeof(g->adj_matrix));
 }
 
+// 그래프에 정점을 하나 추가한다.
 void insert_vertex(GraphType* g, int v1) {
   g->size++;
 }
 
+// 무방향 그래프에 양방향 간선을 추가한다.
 void insert_edge(GraphType* g, int e1, int e2) {
   g->adj_matrix[e1][e2]=1;
   g->adj_matrix[e2][e1]=1;
 }
 
+// 연결 그래프 예제 데이터를 만든다.
 void make_connected_graph(GraphType* g)
 {
 graph_init(g);
@@ -42,6 +46,7 @@ insert_edge(g, 2, 5);
 insert_edge(g, 3, 6);
 }
 
+// 비연결 그래프 예제 데이터를 만든다.
 void make_disconnected_graph(GraphType* g)
 {
 graph_init(g);
@@ -62,6 +67,8 @@ insert_edge(g, 6, 7);
 int visited[MAX_VERTEX]={0}; // 정점의 방문 여부를 나타내는 배열, 0:방문되지 않음, 1:방문됨
 int visit_sequence[MAX_VERTEX]={-1}; // 방문 순서 기록
 int visit_idx=0;
+
+// DFS로 방문 가능한 정점을 방문 순서 배열에 기록한다.
 void DFS_search(GraphType *g, int node) {
   visited[node] = 1;
   visit_sequence[visit_idx++] = node;
@@ -73,6 +80,7 @@ void DFS_search(GraphType *g, int node) {
   }
 }
 
+// 연결 그래프 예제를 각 시작 정점에서 테스트한다.
 void test_connected(GraphType *g) {
   printf("==== 연결 그래프 테스트 ====\n\n");
   for (int i = 0; i < g->size; i++) {
@@ -99,6 +107,7 @@ void test_connected(GraphType *g) {
   printf("\n\n");
 }
 
+// 비연결 그래프 예제를 각 시작 정점에서 테스트한다.
 void test_disconnected(GraphType *g) {
   printf("==== 비연결 그래프 테스트 ====\n\n");
   for (int i = 0; i < g->size; i++) {
@@ -126,6 +135,7 @@ void test_disconnected(GraphType *g) {
   printf("\n\n");
 }
 
+// 연결 그래프와 비연결 그래프의 DFS 연결성 검사를 실행한다.
 int main() {
   GraphType g_connected;
   GraphType g_disconnected;

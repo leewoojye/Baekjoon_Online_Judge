@@ -29,17 +29,20 @@ typedef struct {
     char code[MAX_CODE_LEN];
 } CodeTable;
 
+// 오류 메시지를 출력하고 프로그램을 종료한다.
 static void error(const char *message)
 {
     fprintf(stderr, "%s\n", message);
     exit(1);
 }
 
+// 허프만 노드를 저장할 최소 힙을 초기화한다.
 static void init_heap(HeapType *h)
 {
     h->heap_size = 0;
 }
 
+// 힙 원소의 빈도와 삽입 순서를 기준으로 우선순위를 비교한다.
 static int less_element(element a, element b)
 {
     if (a.key != b.key) {
@@ -48,6 +51,7 @@ static int less_element(element a, element b)
     return a.order < b.order;
 }
 
+// 최소 힙에 허프만 노드 원소를 삽입한다.
 static void insert_min_heap(HeapType *h, element item)
 {
     int i;
@@ -64,6 +68,7 @@ static void insert_min_heap(HeapType *h, element item)
     h->heap[i] = item;
 }
 
+// 최소 힙에서 가장 작은 빈도의 원소를 삭제해 반환한다.
 static element delete_min_heap(HeapType *h)
 {
     int parent;
@@ -95,6 +100,7 @@ static element delete_min_heap(HeapType *h)
     return item;
 }
 
+// 주어진 자식 노드로 새 허프만 트리 노드를 생성한다.
 static TreeNode *make_node(TreeNode *left, TreeNode *right)
 {
     TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
@@ -109,6 +115,7 @@ static TreeNode *make_node(TreeNode *left, TreeNode *right)
     return node;
 }
 
+// 허프만 트리의 모든 노드를 후위 순회로 해제한다.
 static void destroy_tree(TreeNode *root)
 {
     if (root == NULL) {
@@ -119,11 +126,13 @@ static void destroy_tree(TreeNode *root)
     free(root);
 }
 
+// 노드가 리프 노드인지 확인한다.
 static int is_leaf(TreeNode *root)
 {
     return root != NULL && root->left == NULL && root->right == NULL;
 }
 
+// 허프만 코드를 출력하고 문자별 코드 테이블에 저장한다.
 static void store_and_print_codes(TreeNode *root, int codes[], int top, CodeTable table[])
 {
     if (root == NULL) {
@@ -150,6 +159,7 @@ static void store_and_print_codes(TreeNode *root, int codes[], int top, CodeTabl
     }
 }
 
+// 빈도 배열로 허프만 트리를 만들고 코드 테이블을 채운다.
 static TreeNode *huffman_tree(int freq[], char ch_list[], int n, CodeTable table[])
 {
     HeapType heap;
@@ -196,6 +206,7 @@ static TreeNode *huffman_tree(int freq[], char ch_list[], int n, CodeTable table
     return root.ptree;
 }
 
+// 코드 테이블을 이용해 문자열을 이진 코드 문자열로 인코딩한다.
 static void encode_message(const char message[], CodeTable table[], char encoded[])
 {
     encoded[0] = '\0';
@@ -210,6 +221,7 @@ static void encode_message(const char message[], CodeTable table[], char encoded
     }
 }
 
+// 허프만 트리를 따라 이진 코드 문자열을 원문으로 디코딩한다.
 static void decode_message(const char encoded[], TreeNode *root, char decoded[])
 {
     int j = 0;
@@ -232,6 +244,7 @@ static void decode_message(const char encoded[], TreeNode *root, char decoded[])
     decoded[j] = '\0';
 }
 
+// 허프만 트리 생성, 인코딩, 디코딩 예제를 실행한다.
 int main(void)
 {
     char ch_list[] = { 's', 'i', 'n', 't', 'e' };
