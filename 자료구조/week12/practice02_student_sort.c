@@ -28,7 +28,7 @@ void sort_by_score(Student s[], int n) {
   for(int i=0; i<n-1; i++) {
     int max = i;
     for(int j=i+1; j<n; j++) {
-      if(s[max].score < s[j].score || (s[max].score == s[j].score && s[max].id > s[j].id)) {
+      if(s[max].score < s[j].score || (s[max].score == s[j].score && s[max].id > s[j].id)) { // 같은 점수면 학번 기준 오름차순 정렬
         max = j;
       }
     }
