@@ -76,7 +76,8 @@ static void radix_sort_32bit(uint32_t list[], int n)
         }
 
         for (int i = 0; i < n; i++) {
-            int bucket = (int)((list[i] >> shift) & 0xFFu);
+            // 8비트 1과 AND연산으로 마지막 1바이트(8비트)만 남김
+            int bucket = (int)((list[i] >> shift) & 0xFFu); // 11111111 16진수 표현
 
             enqueue(&queues[bucket], list[i]);
         }
